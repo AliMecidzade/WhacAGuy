@@ -1,0 +1,92 @@
+[gd_scene load_steps=6 format=3 uid="uid://dc02ckpojjy2n"]
+
+[ext_resource type="PackedScene" uid="uid://bf7pexjmvxv5n" path="res://Scenes/move_button.tscn" id="1_52fb6"]
+[ext_resource type="Script" uid="uid://deh7xmcq83b66" path="res://Scripts/GameManager.cs" id="1_x6ack"]
+[ext_resource type="PackedScene" uid="uid://dj4qk8q27ifai" path="res://Scenes/player.tscn" id="2_6l7je"]
+[ext_resource type="Texture2D" uid="uid://s30trirmuxnj" path="res://Textures/escapeArea.png" id="2_jv6wh"]
+[ext_resource type="Script" uid="uid://d0x2a7bs225o5" path="res://Scripts/EnemySpawner.cs" id="5_iacmt"]
+
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("_player", "_enemySpawner")]
+script = ExtResource("1_x6ack")
+_player = NodePath("PlayerRoot")
+_enemySpawner = NodePath("EnemySpawner")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(374, 166)
+zoom = Vector2(1.63, 1.63)
+
+[node name="LeftButton" parent="." groups=["MoveButtons"] instance=ExtResource("1_52fb6")]
+position = Vector2(255, 266)
+rotation = -1.5708
+
+[node name="RightButton" parent="." groups=["MoveButtons"] instance=ExtResource("1_52fb6")]
+position = Vector2(476, 277)
+rotation = 1.5708
+
+[node name="EscapeArea" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(380, 69)
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(442.313, 50.3708)
+rotation = 0.785398
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+offset = Vector2(1.31744, 9.60854)
+
+[node name="EscapeArea3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(423, 127)
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea4" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(405, 158)
+rotation = 2.35619
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea5" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(368, 169)
+rotation = 3.14159
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea6" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(343, 81)
+rotation = -0.785398
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea7" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(324, 114)
+rotation = -1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="EscapeArea8" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(335, 151)
+rotation = -2.35619
+scale = Vector2(5, 5)
+texture = ExtResource("2_jv6wh")
+
+[node name="PlayerRoot" parent="." node_paths=PackedStringArray("_enemySpawnTimer") instance=ExtResource("2_6l7je")]
+position = Vector2(374, 118)
+rotation = 0.785398
+_enemySpawnTimer = NodePath("../EnemySpawnTimer")
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource("5_iacmt")
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
