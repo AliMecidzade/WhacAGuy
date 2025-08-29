@@ -12,20 +12,25 @@ public partial class MainMenu : Control
 		_settingsButton = GetNode<Button>("Settings");
 		_quitButton = GetNode<Button>("Quit");
 
-		_startButton.Pressed += OnStartButtonPressed; 
-
+		_startButton.Pressed += OnStartButtonPressed;
+		_quitButton.Pressed += OnQuitButtonPressed; 
 	}
 
 
-	private void ChangeScene(string SceneName)
+	private void ChangeScene(string sceneName)
 	{
-		
+		var scene = ResourceLoader.Load<PackedScene>("res://Scenes/"+sceneName + ".tscn");
+		GetTree().ChangeSceneToPacked(scene);
 	}
-	
+
+	private void OnQuitButtonPressed()
+	{
+		GetTree().Quit();
+	}
 	
 	private void OnStartButtonPressed()
 	{
-		
+		ChangeScene("main_scene");
 	}
 	
 	

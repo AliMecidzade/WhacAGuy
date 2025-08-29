@@ -19,4 +19,5 @@ position = Vector2(3, 1)
 shape = SubResource("CircleShape2D_1f0kj")
 
 [node name="BeforeAttackTimer" type="Timer" parent="."]
+wait_time = 0.5
 autostart = true

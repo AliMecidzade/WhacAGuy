@@ -12,11 +12,14 @@ public partial class EventBus : Node
     public delegate void OnEnemySpawnTimerTimeoutEventHandler(Vector2 position);
    
    [Signal]
-   public delegate void PlayerGotHitEventHandler();
+    public delegate void PlayerGotHitEventHandler();
 
 
 
- 
+    public void EmitPlayerGotHit()
+    {
+        EmitSignal(nameof(PlayerGotHitEventHandler));
+    }
     public void EmitMoveButtonClicked(Area2D area)
     {
         EmitSignal(nameof(MoveButtonClicked), area);

@@ -9,6 +9,7 @@ public partial class GameManager : Node2D
 
     [Export] private EnemySpawner _enemySpawner; 
     
+    [Export] private GameOverMenu _gameOverMenu;
     
     private EventBus _eventBus;
     
@@ -18,10 +19,11 @@ public partial class GameManager : Node2D
         
         _eventBus = new EventBus();
         _player.Init(_eventBus);
-        _enemySpawner.Init(_eventBus);
+        _enemySpawner.Init(_eventBus , _player);
+        _gameOverMenu.Init(_eventBus);
         _player.Start();
         _enemySpawner.Start();
-
+        _gameOverMenu.Start();
         InjectDependenciesInGroup("MoveButtons"); 
 
 
