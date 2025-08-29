@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="WhacAGuy"
-run/main_scene="uid://dc02ckpojjy2n"
+run/main_scene="uid://b2f8b7nc3wc0b"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 
 [autoload]

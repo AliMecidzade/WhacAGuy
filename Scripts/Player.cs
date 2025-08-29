@@ -19,24 +19,21 @@ public partial class Player : Node2D
     public void Init(EventBus eventBus)
     {
         _eventBus = eventBus; 
-
+        
     }
 
-    public Vector2 PlayerPosition
-    {
-        get => _playerPosition;
-        
-    } 
+    
     
     public override void _Ready()
     {
+       
        GD.Print("Player Ready");
 
 
-       _enemySpawnTimer.Timeout += EnemySpawnTimerEnded;
+      
     }
 
-    
+    public Vector2 PlayerPosition => _playerCollision.GlobalPosition;
     
     public void Start()
     {
@@ -48,7 +45,7 @@ public partial class Player : Node2D
     }
     
     
-    private void OnMoveButtonClicked(Area2D area)
+    private void OnMoveButtonClicked(Area2D area) 
     {
         float rotationDegrees = area.RotationDegrees;
         
@@ -57,13 +54,11 @@ public partial class Player : Node2D
 
     private void Die()
     {
+        _eventBus.EmitPlayerGotHit();
         QueueFree();
         
     }
-    private void EnemySpawnTimerEnded()
-    {
-        _eventBus.EmitSignal(nameof(EventBus.OnEnemySpawnTimerTimeout), _playerCollision.GlobalPosition);
-    }
+    
     
     private void Rotate(float escapeAreaAngle)
     {

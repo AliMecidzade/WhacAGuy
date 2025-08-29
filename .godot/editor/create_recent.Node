@@ -1,3 +1,9 @@
+Button
+Label
+Control
+CanvasLayer
+Marker2D
+Node2D
 Timer
 Node
 CollisionShape2D
@@ -5,6 +11,3 @@ Sprite2D
 Area2D
 CharacterBody2D
 Camera2D
-Button
-Label
-Control
