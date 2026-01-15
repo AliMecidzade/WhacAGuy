@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jxyjbgmbi2r3"
-path="res://.godot/imported/guy.png-34187041504802364207f10af5681270.ctex"
+uid="uid://bjr7o4c13ifp1"
+path="res://.godot/imported/newSkeleton.png-5785854413eac0139e46efcbbca957e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/guy.png"
-dest_files=["res://.godot/imported/guy.png-34187041504802364207f10af5681270.ctex"]
+source_file="res://Assets/Sprites/Player/newSkeleton.png"
+dest_files=["res://.godot/imported/newSkeleton.png-5785854413eac0139e46efcbbca957e5.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1l2655s6wkp7"
-path="res://.godot/imported/hammer.png-c81e2e4eb2b87d59ff601572b0382999.ctex"
+uid="uid://c13i3iwfo7ree"
+path="res://.godot/imported/guy-export.png-3b07123fbf1dd362949316002caf08c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/hammer.png"
-dest_files=["res://.godot/imported/hammer.png-c81e2e4eb2b87d59ff601572b0382999.ctex"]
+source_file="res://Assets/Sprites/Player/guy-export.png"
+dest_files=["res://.godot/imported/guy-export.png-3b07123fbf1dd362949316002caf08c2.ctex"]
 
 [params]
 

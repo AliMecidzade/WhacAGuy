@@ -1,24 +1,24 @@
 using Godot;
-using System;
-using System.Diagnostics;
-using System.Numerics;
-using Godot.NativeInterop;
+
 using Vector2 = Godot.Vector2;
 
 public partial class Player : Node2D
 {
-    [Export] private Timer _enemySpawnTimer;
-    [Export] private CollisionShape2D _playerCollision; 
+    [Export] private Timer _hammerSpawnTimer;
+    [Export] private Area2D _headAnchor;
+    [Export] private Timer _scoreTimer; 
+    
     
     private float _rotationSpeed;
     private float _roatationAngle = 45f;
-    private Godot.Vector2 _playerPosition; 
     private EventBus _eventBus;
+    private PlayerScore _playerScore;
+    private bool _isDead;
     
     
     public void Init(EventBus eventBus)
     {
-        _eventBus = eventBus; 
+        _eventBus = eventBus;
         
     }
 
@@ -29,24 +29,50 @@ public partial class Player : Node2D
        
        GD.Print("Player Ready");
 
+       _playerScore = GetNode<PlayerScore>("PlayerScore");
 
-      
+       if (_playerScore != null)
+       {
+           GD.Print("PlayerScore Ready");
+       }
     }
 
-    public Vector2 PlayerPosition => _playerCollision.GlobalPosition;
     
+    public Vector2 PlayerPosition
+    {
+        get
+        {
+            if (!IsInstanceValid(_headAnchor))
+                return Vector2.Zero;
+
+            return _headAnchor.GlobalPosition;
+        }
+    }
+
     public void Start()
     {
+        
         _eventBus.Connect( EventBus.SignalName.MoveButtonClicked, 
             new Callable(this, nameof(OnMoveButtonClicked)));
         
         _eventBus.Connect(EventBus.SignalName.PlayerGotHit, 
             new Callable(this, nameof(Die)));
+
+        // _eventBus.Connect(EventBus.SignalName.OnHammerSpawnTimerTimeout,
+        //     new Callable(this, nameof(OnDodgeTimerStart)));
     }
-    
+
+
+
+    private void OnDodgeTimerStart()
+    {
+        
+        
+    }
     
     private void OnMoveButtonClicked(Area2D area) 
     {
+        
         float rotationDegrees = area.RotationDegrees;
         
         Rotate(rotationDegrees);
@@ -54,7 +80,7 @@ public partial class Player : Node2D
 
     private void Die()
     {
-        _eventBus.EmitPlayerGotHit();
+        _isDead = true;
         QueueFree();
         
     }
@@ -62,6 +88,7 @@ public partial class Player : Node2D
     
     private void Rotate(float escapeAreaAngle)
     {
+        
         if (escapeAreaAngle > 0)
         {
             this.RotationDegrees += _roatationAngle; 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b2f8b7nc3wc0b"]
 
-[ext_resource type="Script" uid="uid://b67a8uurgfiq3" path="res://Scripts/UI/MainMenu.cs" id="1_82sop"]
+[ext_resource type="Script" uid="uid://b67a8uurgfiq3" path="res://Scenes/Start/MainMenu.cs" id="1_7lj27"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7tv2a"]
 font_size = 58
@@ -16,7 +16,7 @@ offset_left = 1.0
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_82sop")
+script = ExtResource("1_7lj27")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1

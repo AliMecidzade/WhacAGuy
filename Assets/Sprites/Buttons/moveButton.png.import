@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://s30trirmuxnj"
-path="res://.godot/imported/escapeArea.png-fd4dc56c646d42ec16765b64807b0606.ctex"
+uid="uid://dxso14ovkkldi"
+path="res://.godot/imported/moveButton.png-d6b13ec74158c671822c7938f2d01670.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/escapeArea.png"
-dest_files=["res://.godot/imported/escapeArea.png-fd4dc56c646d42ec16765b64807b0606.ctex"]
+source_file="res://Assets/Sprites/Buttons/moveButton.png"
+dest_files=["res://.godot/imported/moveButton.png-d6b13ec74158c671822c7938f2d01670.ctex"]
 
 [params]
 

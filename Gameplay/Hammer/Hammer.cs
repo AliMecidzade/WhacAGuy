@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Enemy : Area2D, IEventBusInjectable
+public partial class Hammer : Area2D, IEventBusInjectable
 {
 	
 	private Timer _attackTimer;
@@ -24,28 +24,29 @@ public partial class Enemy : Area2D, IEventBusInjectable
 		
 		_attackTimer.Timeout += OnAttackTimerTimeout;
 		
-		this.BodyEntered += OnEnemyAttackZoneEntered;
-		this.BodyExited += OnEnemyAttackZoneExited; 
+		this.AreaEntered += OnHammerAttackZoneEntered;
+		this.AreaExited += OnHammerAttackZoneExited; 
 	}
 
 	
 	private void OnAttackTimerTimeout()
 	{
-
+		GD.Print(_isPlayerInArea);
 		if (_isPlayerInArea)
 		{
 			_eventBus.EmitSignal(nameof(EventBus.PlayerGotHit));
+			
 		}
 		QueueFree();
 	}
 
-	private void OnEnemyAttackZoneEntered(Node playerNode)
+	private void OnHammerAttackZoneEntered(Area2D playerHead)
 	{
 		_isPlayerInArea = true; 
 		
 	}
 
-	private void OnEnemyAttackZoneExited(Node playerNode)
+	private void OnHammerAttackZoneExited(Area2D playerHead)
 	{
 		_isPlayerInArea = false; 
 		

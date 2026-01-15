@@ -1,13 +1,12 @@
 using Godot;
-using System;
-using System.Runtime.CompilerServices;
+
 
 public partial class GameManager : Node2D
 {
-    [Export]
-    private Player _player;
+    
+    [Export] private Player _player;
 
-    [Export] private EnemySpawner _enemySpawner; 
+    [Export] private HammerSpawner _hammerSpawner; 
     
     [Export] private GameOverMenu _gameOverMenu;
     
@@ -18,11 +17,12 @@ public partial class GameManager : Node2D
     {
         
         _eventBus = new EventBus();
+        this.AddChild(_eventBus);
         _player.Init(_eventBus);
-        _enemySpawner.Init(_eventBus , _player);
+        _hammerSpawner.Init(_eventBus , _player);
         _gameOverMenu.Init(_eventBus);
         _player.Start();
-        _enemySpawner.Start();
+        _hammerSpawner.Start();
         _gameOverMenu.Start();
         InjectDependenciesInGroup("MoveButtons"); 
 
