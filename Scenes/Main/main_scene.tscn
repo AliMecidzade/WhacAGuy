@@ -1,0 +1,130 @@
+[gd_scene load_steps=7 format=3 uid="uid://dc02ckpojjy2n"]
+
+[ext_resource type="Script" uid="uid://deh7xmcq83b66" path="res://Core/GameManager.cs" id="1_ip5ju"]
+[ext_resource type="PackedScene" uid="uid://bf7pexjmvxv5n" path="res://Gameplay/MoveButton/move_button.tscn" id="2_d5b16"]
+[ext_resource type="PackedScene" uid="uid://ba4kwf6wrlelb" path="res://Scenes/GameOver/game_over_scene.tscn" id="2_ip5ju"]
+[ext_resource type="Texture2D" uid="uid://s30trirmuxnj" path="res://Assets/Sprites/Buttons/escapeArea.png" id="3_vudmy"]
+[ext_resource type="PackedScene" uid="uid://dj4qk8q27ifai" path="res://Gameplay/Player/player.tscn" id="4_ip5ju"]
+[ext_resource type="Script" uid="uid://dnlxt8xp8bfnl" path="res://Gameplay/Hammer/HammerSpawner.cs" id="5_d5b16"]
+
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("_player", "_hammerSpawner", "_gameOverMenu")]
+script = ExtResource("1_ip5ju")
+_player = NodePath("PlayerRoot")
+_hammerSpawner = NodePath("HammerSpawner")
+_gameOverMenu = NodePath("GameOverMenu")
+
+[node name="GameOverMenu" parent="." instance=ExtResource("2_ip5ju")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(374, 166)
+zoom = Vector2(1.63, 1.63)
+
+[node name="LeftButton" parent="." groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
+position = Vector2(255, 266)
+rotation = -1.5708
+
+[node name="RightButton" parent="." groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
+position = Vector2(476, 277)
+rotation = 1.5708
+
+[node name="EscapeArea" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(380, 69)
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(442.313, 50.3708)
+rotation = 0.785398
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+offset = Vector2(1.31744, 9.60854)
+
+[node name="EscapeArea3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(423, 127)
+rotation = 1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea4" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(405, 158)
+rotation = 2.35619
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea5" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(368, 169)
+rotation = 3.14159
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea6" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(343, 81)
+rotation = -0.785398
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea7" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(324, 114)
+rotation = -1.5708
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="EscapeArea8" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(335, 151)
+rotation = -2.35619
+scale = Vector2(5, 5)
+texture = ExtResource("3_vudmy")
+
+[node name="PlayerRoot" parent="." node_paths=PackedStringArray("_hammerSpawnTimer", "_scoreTimer") instance=ExtResource("4_ip5ju")]
+position = Vector2(374, 118)
+_hammerSpawnTimer = NodePath("../HammerSpawnTimer")
+_scoreTimer = NodePath("../ScoreTimer")
+
+[node name="HammerSpawner" type="Node" parent="." node_paths=PackedStringArray("_hammerSpawnTimer")]
+script = ExtResource("5_d5b16")
+_hammerSpawnTimer = NodePath("../HammerSpawnTimer")
+
+[node name="HammerSpawnPoints" type="Node2D" parent="HammerSpawner"]
+
+[node name="Pos1" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(441, 51)
+
+[node name="Pos2" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(469, 118)
+
+[node name="Pos3" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(441, 185)
+
+[node name="Pos4" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(373, 213)
+
+[node name="Pos5" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(307, 185)
+
+[node name="Pos6" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(279, 118)
+
+[node name="Pos7" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(307, 50)
+
+[node name="Pos8" type="Marker2D" parent="HammerSpawner/HammerSpawnPoints"]
+position = Vector2(374, 23)
+
+[node name="HammerSpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 81.0
+offset_right = 146.0
+offset_bottom = 23.0
+text = "Score : 0"

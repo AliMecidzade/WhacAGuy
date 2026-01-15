@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://dj4qk8q27ifai"]
+
+[ext_resource type="Script" uid="uid://dtxley0m4t6hg" path="res://Gameplay/Player/Player.cs" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://bjr7o4c13ifp1" path="res://Assets/Sprites/Player/newSkeleton.png" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://bprfp3wsrshq4" path="res://Gameplay/Player/PlayerScore.cs" id="3_6t5aa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hkase"]
+
+[node name="PlayerRoot" type="Node2D" node_paths=PackedStringArray("_headAnchor")]
+script = ExtResource("1_cvnsp")
+_headAnchor = NodePath("HeadAnchor")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture_filter = 1
+position = Vector2(1, -53)
+texture = ExtResource("2_cvnsp")
+offset = Vector2(5, 12)
+
+[node name="PlayerScore" type="Node" parent="."]
+script = ExtResource("3_6t5aa")
+
+[node name="HeadAnchor" type="Area2D" parent="."]
+position = Vector2(1, -94)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeadAnchor"]
+shape = SubResource("CircleShape2D_hkase")

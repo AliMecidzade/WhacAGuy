@@ -1,0 +1,82 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba4kwf6wrlelb"]
+
+[ext_resource type="Script" uid="uid://c1nv4x1b61kla" path="res://Scenes/GameOver/GameOverMenu.cs" id="1_hecnh"]
+
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_tryAgainButton", "_exitButton")]
+visible = false
+script = ExtResource("1_hecnh")
+_tryAgainButton = NodePath("Control/TryAgain")
+_exitButton = NodePath("Control/Exit")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+
+[node name="GameOverMenu" type="Label" parent="Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.0
+offset_top = -92.825
+offset_right = 35.0
+offset_bottom = -69.825
+grow_horizontal = 2
+text = "You Died"
+
+[node name="TryAgain" type="Button" parent="Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -69.515
+offset_right = 41.0
+offset_bottom = -38.515
+grow_horizontal = 2
+grow_vertical = 2
+text = "Try Again
+"
+
+[node name="Exit" type="Button" parent="Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -18.0
+offset_top = 1.175
+offset_right = 19.0
+offset_bottom = 32.175
+grow_horizontal = 2
+grow_vertical = 0
+text = "Exit
+"
+
+[node name="BackToMain" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -55.5
+offset_top = -35.41
+offset_right = 55.5
+offset_bottom = -4.41
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back To Main"

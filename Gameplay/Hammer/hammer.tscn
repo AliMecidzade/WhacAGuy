@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bv5fbs3vjjspb"]
+
+[ext_resource type="Script" uid="uid://bm25ykrbsep86" path="res://Gameplay/Hammer/Hammer.cs" id="1_yuxlt"]
+[ext_resource type="Texture2D" uid="uid://1l2655s6wkp7" path="res://Assets/Sprites/Hammer/hammer.png" id="2_wilbo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1f0kj"]
+radius = 46.0
+
+[node name="Hammer" type="Area2D" groups=["Enemy"]]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_yuxlt")
+
+[node name="HammerZone" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_wilbo")
+
+[node name="EnemyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(3, 1)
+shape = SubResource("CircleShape2D_1f0kj")
+
+[node name="BeforeAttackTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
