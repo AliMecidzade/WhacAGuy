@@ -12,16 +12,15 @@ public partial class Player : Node2D
     private float _rotationSpeed;
     private float _roatationAngle = 45f;
     private EventBus _eventBus;
-    private PlayerScore _playerScore;
     private bool _isDead;
-    
+
+    public bool IsDead => _isDead;
     
     public void Init(EventBus eventBus)
     {
         _eventBus = eventBus;
         
     }
-
     
     
     public override void _Ready()
@@ -29,12 +28,7 @@ public partial class Player : Node2D
        
        GD.Print("Player Ready");
 
-       _playerScore = GetNode<PlayerScore>("PlayerScore");
-
-       if (_playerScore != null)
-       {
-           GD.Print("PlayerScore Ready");
-       }
+       
     }
 
     
@@ -52,23 +46,26 @@ public partial class Player : Node2D
     public void Start()
     {
         
-        _eventBus.Connect( EventBus.SignalName.MoveButtonClicked, 
+        _eventBus.Connect(EventBus.SignalName.MoveButtonClicked, 
             new Callable(this, nameof(OnMoveButtonClicked)));
         
         _eventBus.Connect(EventBus.SignalName.PlayerGotHit, 
-            new Callable(this, nameof(Die)));
+            new Callable(this, nameof(TakeDamage)));
 
-        // _eventBus.Connect(EventBus.SignalName.OnHammerSpawnTimerTimeout,
-        //     new Callable(this, nameof(OnDodgeTimerStart)));
     }
 
 
-
-    private void OnDodgeTimerStart()
+    private void TakeDamage()
     {
-        
-        
+        if (_isDead)
+            return;
+
+        _isDead = true;
+
+        Die();
     }
+    
+    
     
     private void OnMoveButtonClicked(Area2D area) 
     {
@@ -80,7 +77,7 @@ public partial class Player : Node2D
 
     private void Die()
     {
-        _isDead = true;
+        _eventBus.EmitPlayerDied();
         QueueFree();
         
     }
@@ -92,13 +89,13 @@ public partial class Player : Node2D
         if (escapeAreaAngle > 0)
         {
             this.RotationDegrees += _roatationAngle; 
-            GD.Print(this.RotationDegrees);
+            
 
         }
         else
         {
             this.RotationDegrees -= _roatationAngle; 
-            GD.Print(this.RotationDegrees);
+           
         }
         
         
