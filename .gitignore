@@ -1,18 +1,105 @@
-# Godot-specific
-.import/
-.export/
-mono/
-data_*/
-*.mono/
-*.tmp
+# =========================================================
+# GODOT 4
+# =========================================================
 
+# Godot editor cache
+.godot/
+
+# Imported assets cache
+.import/
+
+# Export templates
+export_presets.cfg
+
+# Mono temporary files
+mono_crash.*
+
+# =========================================================
 # C# / .NET
+# =========================================================
+
+# Build output
 bin/
 obj/
-*.user
-*.suo
-*.csproj.user
 
-# OS
+# Mono data
+.mono/
+
+# NuGet
+.nuget/
+packages/
+
+# Rider / Visual Studio generated
+*.user
+*.rsuser
+*.suo
+*.userprefs
+
+# =========================================================
+# IDEs
+# =========================================================
+
+# Visual Studio
+.vs/
+
+# JetBrains Rider / IntelliJ
+.idea/
+
+# VSCode
+.vscode/
+
+# =========================================================
+# OS FILES
+# =========================================================
+
+# macOS
 .DS_Store
+
+# Windows
 Thumbs.db
+desktop.ini
+
+# =========================================================
+# LOGS / TEMP
+# =========================================================
+
+*.log
+logs/
+
+tmp/
+temp/
+
+# =========================================================
+# EXPORTS / BUILDS
+# =========================================================
+
+# Windows
+*.exe
+*.pdb
+
+# Linux
+*.x86_64
+
+# macOS
+*.app
+
+# Mobile
+*.apk
+*.aab
+*.ipa
+
+# Archives
+*.zip
+*.rar
+*.7z
+
+# Godot package
+*.pck
+
+# =========================================================
+# OPTIONAL
+# =========================================================
+
+# Uncomment if you DO NOT want solution/project files tracked
+# *.sln
+# *.csproj
