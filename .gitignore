@@ -1,52 +1,40 @@
 # =========================================================
-# GODOT 4
+# GODOT 4 CORE
 # =========================================================
 
-# Godot editor cache
 .godot/
-
-# Imported assets cache
 .import/
-
-# Export templates
+.export/
 export_presets.cfg
 
-# Mono temporary files
-mono_crash.*
+# Temporary / editor files
+*.translation
+*.tmp
 
 # =========================================================
-# C# / .NET
+# C# / .NET (Godot Mono)
 # =========================================================
 
-# Build output
+# Build output (NEVER commit compiled binaries)
 bin/
 obj/
 
-# Mono data
-.mono/
+# Rider / Visual Studio / .NET
+.vs/
+.vscode/
+.idea/
+
+*.user
+*.userprefs
+*.suo
+*.cache
 
 # NuGet
 .nuget/
 packages/
 
-# Rider / Visual Studio generated
-*.user
-*.rsuser
-*.suo
-*.userprefs
-
-# =========================================================
-# IDEs
-# =========================================================
-
-# Visual Studio
-.vs/
-
-# JetBrains Rider / IntelliJ
-.idea/
-
-# VSCode
-.vscode/
+# Crash dumps
+mono_crash.*
 
 # =========================================================
 # OS FILES
@@ -57,7 +45,7 @@ packages/
 
 # Windows
 Thumbs.db
-desktop.ini
+Desktop.ini
 
 # =========================================================
 # LOGS / TEMP
@@ -65,41 +53,35 @@ desktop.ini
 
 *.log
 logs/
-
-tmp/
 temp/
+tmp/
 
 # =========================================================
-# EXPORTS / BUILDS
+# EXPORT OUTPUT (Godot builds)
 # =========================================================
 
-# Windows
+# Windows builds
 *.exe
 *.pdb
 
-# Linux
+# Linux builds
 *.x86_64
 
-# macOS
+# macOS builds
 *.app
 
-# Mobile
+# Android / Mobile exports
 *.apk
 *.aab
 *.ipa
 
-# Archives
-*.zip
-*.rar
-*.7z
-
-# Godot package
+# Godot packages
 *.pck
 
 # =========================================================
-# OPTIONAL
+# OPTIONAL (ONLY if you want a clean repo)
 # =========================================================
 
-# Uncomment if you DO NOT want solution/project files tracked
+# Uncomment ONLY if your team regenerates these files
 # *.sln
 # *.csproj
