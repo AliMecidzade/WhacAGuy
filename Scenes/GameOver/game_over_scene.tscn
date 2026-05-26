@@ -2,11 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c1nv4x1b61kla" path="res://Scenes/GameOver/GameOverMenu.cs" id="1_hecnh"]
 
-[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_tryAgainButton", "_exitButton")]
+[node name="GameOverMenu" type="CanvasLayer" node_paths=PackedStringArray("_tryAgainButton", "_exitButton", "_backToMainMenuButton")]
 visible = false
 script = ExtResource("1_hecnh")
 _tryAgainButton = NodePath("Control/TryAgain")
 _exitButton = NodePath("Control/Exit")
+_backToMainMenuButton = NodePath("Control/BackToMain")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

@@ -8,7 +8,9 @@ public partial class GameOverMenu : CanvasLayer
 
 	[Export] private Button _tryAgainButton; 
 	[Export] private Button _exitButton;
-
+	[Export] private Button _backToMainMenuButton;
+	
+	
 	public void Init(EventBus eventBus)
 	{
 		_eventBus = eventBus;
@@ -16,20 +18,38 @@ public partial class GameOverMenu : CanvasLayer
 
 	public void Start()
 	{
-		_eventBus.Connect(EventBus.SignalName.PlayerGotHit, 
-			new Callable(this, nameof(ShowGameOverMenu)));
+		if (_eventBus == null)
+		{
+			GD.PrintErr("GameOverMenu: EventBus is NULL");
+			return;
+		}
+
+		_eventBus.Connect(
+			EventBus.SignalName.GameOver,
+			new Callable(this, nameof(ShowGameOverMenu))
+		);
 	}
-	
 	
 	public override void _Ready()
 	{
 
 		_exitButton.Pressed += OnExitButtonPressed;
-
+		_backToMainMenuButton.Pressed += OnBackToMainButtonPressed;
 		_tryAgainButton.Pressed += OnTryAgainButtonPressed;
 	}
 
-
+	private void ChangeScene(string sceneName)
+	{
+		var scene = ResourceLoader.Load<PackedScene>("res://Scenes/"+sceneName + ".tscn");
+		GetTree().ChangeSceneToPacked(scene);
+	}
+	
+	
+	private void OnBackToMainButtonPressed()
+	{
+		ChangeScene("Start/start_scene");
+	}
+	
 	private void OnExitButtonPressed()
 	{
 		GetTree().Quit();

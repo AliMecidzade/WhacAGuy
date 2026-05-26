@@ -4,7 +4,8 @@ using Godot;
 public partial class EventBus : Node
 {
     
-    
+    [Signal]
+    public delegate void AttackRoundFinishedEventHandler(float reactionTime, bool playerHit);
     [Signal]
     public delegate void GameOverEventHandler();
     [Signal]
@@ -16,10 +17,29 @@ public partial class EventBus : Node
     [Signal]
     public delegate void PlayerGotHitEventHandler();
 
+    [Signal]
+
+    public delegate void PlayerDiedEventHandler();
+
+    [Signal]
+    public delegate void HammerDodgedEventHandler(float timeInside);
 
 
+    
 
-
+    
+    public void EmitAttackRoundFinished(float reactionTime, bool playerHit)
+    {
+        EmitSignal(nameof(AttackRoundFinished), reactionTime, playerHit);
+    }
+    public void EmitHammerDodged(float timeInside)
+    {
+        EmitSignal(nameof(HammerDodged), timeInside);
+    }
+    public void EmitPlayerDied()
+    {
+        EmitSignal(nameof(PlayerDied));
+    }
     public void EmitGameOver()
     {
         EmitSignal(nameof(GameOver));
