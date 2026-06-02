@@ -12,7 +12,7 @@ public partial class Player : Node2D
     private float _rotationSpeed;
     private float _roatationAngle = 45f;
     private EventBus _eventBus;
-    private bool _isDead;
+    private bool _isDead = false;
 
     public bool IsDead => _isDead;
     
@@ -61,8 +61,10 @@ public partial class Player : Node2D
             return;
 
         _isDead = true;
-
-        Die();
+        _eventBus.EmitPlayerDied();
+        GD.Print("PLAYER DIED");
+        QueueFree();
+      
     }
     
     
@@ -75,13 +77,7 @@ public partial class Player : Node2D
         Rotate(rotationDegrees);
     }
 
-    private void Die()
-    {
-        _eventBus.EmitPlayerDied();
-        QueueFree();
-        
-    }
-    
+   
     
     private void Rotate(float escapeAreaAngle)
     {

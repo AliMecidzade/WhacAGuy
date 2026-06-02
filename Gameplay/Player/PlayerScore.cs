@@ -1,36 +1,49 @@
-using Godot;
+using WhacAGuy.Scenes.DodgeFeedback;
 
 public class PlayerScore
 {
     private int _score = 0;
 
-    public int Score
+    public int Score => _score;
+
+    public void AddScore(float timeInside, bool playerHit, float maxTime)
     {
-        get { return _score; }
+        _score += CalculateRoundScore(timeInside, playerHit, maxTime);
     }
 
-    public void AddScore(float reactionTime, bool playerHit)
-    {
-        _score += CalculateScore(reactionTime, playerHit);
-    }
-
-    public int CalculateScore(float reactionTime, bool playerHit)
+    public int CalculateRoundScore(float timeInside, bool playerHit, float maxTime)
     {
         if (playerHit)
             return 0;
 
-        float maxTime = 1.0f;
+        float timeLeft = maxTime - timeInside;
 
-        // 0.0 sec = perfect
-        // 1.0 sec = terrible
-        float normalized = Mathf.Clamp(reactionTime / maxTime, 0f, 1f);
+        // More points the closer to the wire you cut it.
+        if (timeLeft <= 0.1f)
+            return 100;   // nearly got hit
 
-        // invert it
-        float quality = 1f - normalized;
+        if (timeLeft <= 0.3f)
+            return 50;    // close call
 
-        // optional curve for better feeling
-        quality *= quality;
+        if (timeLeft <= 0.5f)
+            return 10;    // decent dodge
 
-        return Mathf.RoundToInt(quality * 100);
+        return 0;         // escaped early, no bonus
+    }
+
+    public DodgeRating CalculateRating(float timeInside, bool playerHit, float maxTime)
+    {
+        if (playerHit)
+            return DodgeRating.NotBad;
+
+        float timeLeft = maxTime - timeInside;
+
+        if (timeLeft <= 0.1f)
+            return DodgeRating.Excellent;
+
+        if (timeLeft <= 0.3f)
+            return DodgeRating.Good;
+
+        return DodgeRating.NotBad;
     }
 }

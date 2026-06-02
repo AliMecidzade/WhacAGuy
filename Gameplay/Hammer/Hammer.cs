@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using WhacAGuy.Gameplay.Controllers;
 
@@ -9,7 +10,6 @@ public partial class Hammer : Area2D
     private EventBus _eventBus;
 
     private float _timeInside = 0f;
-
     private bool _isPlayerInArea = false;
     private bool _isScoringHammer = false;
 
@@ -27,7 +27,6 @@ public partial class Hammer : Area2D
     public override void _Ready()
     {
         _attackTimer = GetNode<Timer>("BeforeAttackTimer");
-
         _attackTimer.Timeout += OnAttackTimerTimeout;
 
         AreaEntered += OnHammerAttackZoneEntered;
@@ -52,10 +51,9 @@ public partial class Hammer : Area2D
             _eventBus.EmitPlayerGotHit();
         }
 
-        if (_isScoringHammer)
-        {
-            _round.EndRound(_timeInside);
-        }
+        _round?.NotifyHammerFinished(
+            _timeInside,
+            (float)_attackTimer.WaitTime);
 
         QueueFree();
     }
@@ -63,14 +61,12 @@ public partial class Hammer : Area2D
     private void OnHammerAttackZoneEntered(Area2D area)
     {
         _isPlayerInArea = true;
-
         SetProcess(true);
     }
 
     private void OnHammerAttackZoneExited(Area2D area)
     {
         _isPlayerInArea = false;
-
         SetProcess(false);
     }
 }

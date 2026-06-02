@@ -6,6 +6,7 @@ using WhacAGuy.Gameplay.Controllers;
 public partial class HammerSpawner : Node
 {
     [Export] private Timer _hammerSpawnTimer;
+    [Export] private int _hammerCount = 0;
 
     private EventBus _eventBus;
 
@@ -14,6 +15,8 @@ public partial class HammerSpawner : Node
 
     private Player _player;
     private AttackRoundController _round;
+
+    private Callable _placeHammersCallable;
 
     public void Init(EventBus eventBus, Player player, AttackRoundController round)
     {
@@ -34,65 +37,86 @@ public partial class HammerSpawner : Node
 
     public void Start()
     {
-        _eventBus.Connect(
-            nameof(EventBus.OnHammerSpawnTimerTimeout),
-            Callable.From<Vector2, int>(PlaceHammers)
-        );
+        _placeHammersCallable = Callable.From<Vector2, int>(PlaceHammers);
 
-        _eventBus.Connect(
-            nameof(EventBus.GameOver),
-            new Callable(this, nameof(Stop))
-        );
+        if (!_eventBus.IsConnected(nameof(EventBus.OnHammerSpawnTimerTimeout), _placeHammersCallable))
+        {
+            _eventBus.Connect(
+                nameof(EventBus.OnHammerSpawnTimerTimeout),
+                _placeHammersCallable
+            );
+        }
+
+        var stopCallable = new Callable(this, nameof(Stop));
+        if (!_eventBus.IsConnected(nameof(EventBus.GameOver), stopCallable))
+        {
+            _eventBus.Connect(
+                nameof(EventBus.GameOver),
+                stopCallable
+            );
+        }
+
+        _hammerSpawnTimer.Start();
     }
 
     private void HammerSpawnTimerEnded()
     {
-        _eventBus.EmitEnemySpawn(_player.PlayerPosition, 4);
+        _eventBus.EmitEnemySpawn(_player.PlayerPosition, _hammerCount);
     }
 
-    private void Stop()
+    public void Stop()
     {
         _hammerSpawnTimer.Stop();
+
+        if (_eventBus.IsConnected(nameof(EventBus.OnHammerSpawnTimerTimeout), _placeHammersCallable))
+            _eventBus.Disconnect(nameof(EventBus.OnHammerSpawnTimerTimeout), _placeHammersCallable);
+
+        var stopCallable = new Callable(this, nameof(Stop));
+        if (_eventBus.IsConnected(nameof(EventBus.GameOver), stopCallable))
+            _eventBus.Disconnect(nameof(EventBus.GameOver), stopCallable);
     }
 
     private Hammer CreateHammer()
     {
         var hammerScene = GD.Load<PackedScene>("res://Gameplay/Hammer/hammer.tscn");
-
         Hammer hammer = hammerScene.Instantiate<Hammer>();
-
         hammer.Init(_eventBus, _round);
-
         return hammer;
     }
 
     private void PlaceHammers(Vector2 playerPos, int hammerNumber)
     {
+        int totalHammers = 1;
+
         Hammer scoringHammer = CreateHammer();
-
         scoringHammer.SetAsScoringHammer();
-        scoringHammer.Position = playerPos;
-
-        AddChild(scoringHammer);
 
         List<Node2D> availablePoints = new(_spawnPoints);
+        availablePoints.RemoveAll(p => p.GlobalPosition.DistanceTo(playerPos) < 30f);
 
-        availablePoints.RemoveAll(p => p.Position == playerPos);
-
+        List<(Hammer hammer, Vector2 pos)> regularHammers = new();
         for (int i = 0; i < hammerNumber; i++)
         {
             if (availablePoints.Count == 0)
                 break;
 
             int index = _random.Next(availablePoints.Count);
-
-            Hammer hammer = CreateHammer();
-
-            hammer.Position = availablePoints[index].Position;
-
-            AddChild(hammer);
-
+            Vector2 spawnPos = availablePoints[index].GlobalPosition;
             availablePoints.RemoveAt(index);
+
+            regularHammers.Add((CreateHammer(), spawnPos));
+            totalHammers++;
+        }
+
+        _round.StartRound(totalHammers);
+
+        AddChild(scoringHammer);
+        scoringHammer.GlobalPosition = playerPos;
+
+        foreach (var (hammer, pos) in regularHammers)
+        {
+            AddChild(hammer);
+            hammer.GlobalPosition = pos;
         }
     }
 }

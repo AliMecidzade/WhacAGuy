@@ -5,7 +5,7 @@ public partial class EventBus : Node
 {
     
     [Signal]
-    public delegate void AttackRoundFinishedEventHandler(float reactionTime, bool playerHit);
+    public delegate void AttackRoundFinishedEventHandler(float reactionTime, bool playerHit,float maxTime);
     [Signal]
     public delegate void GameOverEventHandler();
     [Signal]
@@ -23,14 +23,32 @@ public partial class EventBus : Node
 
     [Signal]
     public delegate void HammerDodgedEventHandler(float timeInside);
-
-
     
-
-    
-    public void EmitAttackRoundFinished(float reactionTime, bool playerHit)
+    public void ResetForNewGame()
     {
-        EmitSignal(nameof(AttackRoundFinished), reactionTime, playerHit);
+        DisconnectAll(SignalName.AttackRoundFinished);
+        DisconnectAll(SignalName.GameOver);
+        DisconnectAll(SignalName.MoveButtonClicked);
+        DisconnectAll(SignalName.OnHammerSpawnTimerTimeout);
+        DisconnectAll(SignalName.PlayerGotHit);
+        DisconnectAll(SignalName.PlayerDied);
+        DisconnectAll(SignalName.HammerDodged);
+    }
+
+    private void DisconnectAll(StringName signalName)
+    {
+        foreach (var connection in GetSignalConnectionList(signalName))
+        {
+            var callable = (Callable)connection["callable"];
+            if (IsConnected(signalName, callable))
+                Disconnect(signalName, callable);
+        }
+    }
+
+    
+    public void EmitAttackRoundFinished(float reactionTime, bool playerHit, float maxTime)
+    {
+        EmitSignal(nameof(AttackRoundFinished), reactionTime, playerHit, maxTime);
     }
     public void EmitHammerDodged(float timeInside)
     {
@@ -46,6 +64,8 @@ public partial class EventBus : Node
     }
     public void EmitEnemySpawn(Vector2 playerPos, int hammerCount)
     {
+        GD.Print($"[EVENTBUS] EmitEnemySpawn {playerPos}");
+
         EmitSignal(nameof(OnHammerSpawnTimerTimeout), playerPos, hammerCount);
     }
      
