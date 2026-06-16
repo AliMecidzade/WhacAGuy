@@ -7,13 +7,12 @@ public partial class Player : Node2D
     [Export] private Timer _hammerSpawnTimer;
     [Export] private Area2D _headAnchor;
     [Export] private Timer _scoreTimer; 
-    
+    [Export] private AnimatedSprite2D _playerSprite;    
     
     private float _rotationSpeed;
     private float _roatationAngle = 45f;
     private EventBus _eventBus;
     private bool _isDead = false;
-
     public bool IsDead => _isDead;
     
     public void Init(EventBus eventBus)
@@ -24,8 +23,7 @@ public partial class Player : Node2D
     
     
     public override void _Ready()
-    {
-       
+    { 
        GD.Print("Player Ready");
 
        
@@ -75,26 +73,44 @@ public partial class Player : Node2D
         float rotationDegrees = area.RotationDegrees;
         
         Rotate(rotationDegrees);
+        
     }
 
    
     
-    private void Rotate(float escapeAreaAngle)
+    private new void Rotate(float escapeAreaAngle)
     {
         
         if (escapeAreaAngle > 0)
         {
-            this.RotationDegrees += _roatationAngle; 
+            this.RotationDegrees += _roatationAngle;
+            if (_playerSprite.Frame < 7 )
+            {
+                _playerSprite.Frame += 1;
             
-
+            }
+            else
+            {
+                _playerSprite.Frame = 0;
+            }
+          
         }
         else
         {
             this.RotationDegrees -= _roatationAngle; 
-           
+            if (_playerSprite.Frame > 0 )
+            {
+                _playerSprite.Frame -= 1;
+
+            }
+            else
+            {
+                _playerSprite.Frame = 7;
+            }
         }
+
         
-        
+
     } 
     
 }

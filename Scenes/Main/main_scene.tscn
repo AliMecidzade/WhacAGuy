@@ -8,14 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://dj4qk8q27ifai" path="res://Gameplay/Player/player.tscn" id="4_ip5ju"]
 [ext_resource type="Script" uid="uid://dnlxt8xp8bfnl" path="res://Gameplay/Hammer/HammerSpawner.cs" id="5_d5b16"]
 
-[node name="MainScene" type="Node2D" unique_id=149247795 node_paths=PackedStringArray("_roundTimer", "_player", "_hammerSpawner", "_gameOverMenu", "_scoreLabel")]
+[node name="MainScene" type="Node2D" unique_id=149247795 node_paths=PackedStringArray("_player", "_hammerSpawner", "_gameOverMenu", "_scoreLabel", "_roundLabel")]
 script = ExtResource("1_ip5ju")
 _dodgeFeedbackScene = ExtResource("2_vudmy")
-_roundTimer = NodePath("RoundTimer")
 _player = NodePath("PlayerRoot")
 _hammerSpawner = NodePath("HammerSpawner")
 _gameOverMenu = NodePath("GameOverMenu")
 _scoreLabel = NodePath("ScoreLabel")
+_roundLabel = NodePath("RoundLabel")
 
 [node name="DodgeFeedback" parent="." unique_id=1793106495 instance=ExtResource("2_vudmy")]
 offset_left = 79.0
@@ -30,12 +30,14 @@ position = Vector2(374, 166)
 zoom = Vector2(1.63, 1.63)
 
 [node name="LeftButton" parent="." unique_id=1161926889 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(255, 266)
+position = Vector2(262, 283)
 rotation = -1.5708
+scale = Vector2(0.5, 0.5)
 
 [node name="RightButton" parent="." unique_id=1781968908 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(476, 277)
-rotation = 1.5708
+position = Vector2(484, 270)
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
 
 [node name="EscapeArea" type="Sprite2D" parent="." unique_id=711571359]
 texture_filter = 1
@@ -101,7 +103,6 @@ _scoreTimer = NodePath("../ScoreTimer")
 [node name="HammerSpawner" type="Node" parent="." unique_id=699739773 node_paths=PackedStringArray("_hammerSpawnTimer")]
 script = ExtResource("5_d5b16")
 _hammerSpawnTimer = NodePath("../HammerSpawnTimer")
-_hammerCount = 4
 
 [node name="HammerSpawnPoints" type="Node2D" parent="HammerSpawner" unique_id=1106128255]
 
@@ -141,3 +142,9 @@ offset_bottom = 23.0
 text = "Score : 0"
 
 [node name="RoundTimer" type="Timer" parent="." unique_id=1637000931]
+
+[node name="RoundLabel" type="Label" parent="." unique_id=1049245394]
+offset_left = 563.945
+offset_right = 626.94507
+offset_bottom = 23.0
+text = "Round : 1"

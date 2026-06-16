@@ -1,24 +1,90 @@
 [gd_scene format=3 uid="uid://dj4qk8q27ifai"]
 
 [ext_resource type="Script" uid="uid://dtxley0m4t6hg" path="res://Gameplay/Player/Player.cs" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://bjr7o4c13ifp1" path="res://Assets/Sprites/Player/newSkeleton.png" id="2_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://jxyjbgmbi2r3" path="res://Assets/Sprites/Player/guy.png" id="2_t4lfm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkase"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t57j"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsnc0"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1coc"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmb5c"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpqns"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jsif"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xydi1"]
+atlas = ExtResource("2_t4lfm")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uf51g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hkase")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0t57j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsnc0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1coc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmb5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bpqns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7jsif")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xydi1")
+}],
+"loop": true,
+"name": &"spin",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hkase"]
 
-[node name="PlayerRoot" type="Node2D" unique_id=200965787 node_paths=PackedStringArray("_headAnchor")]
+[node name="PlayerRoot" type="Node2D" unique_id=200965787 node_paths=PackedStringArray("_headAnchor", "_playerSprite")]
 script = ExtResource("1_cvnsp")
 _headAnchor = NodePath("HeadAnchor")
+_playerSprite = NodePath("CharacterBody2D/AnimatedSprite2D")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=208893387]
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=1600807243]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1969578661]
 texture_filter = 1
-position = Vector2(1, -53)
-texture = ExtResource("2_cvnsp")
-offset = Vector2(5, 12)
+position = Vector2(6, -40)
+sprite_frames = SubResource("SpriteFrames_uf51g")
+animation = &"spin"
 
 [node name="HeadAnchor" type="Area2D" parent="." unique_id=1479376275]
 position = Vector2(1, -94)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HeadAnchor" unique_id=458439922]
+scale = Vector2(1.1599984, 1.2399976)
 shape = SubResource("CircleShape2D_hkase")

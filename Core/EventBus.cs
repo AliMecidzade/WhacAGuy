@@ -1,29 +1,29 @@
 using Godot;
 
-
 public partial class EventBus : Node
 {
-    
     [Signal]
-    public delegate void AttackRoundFinishedEventHandler(float reactionTime, bool playerHit,float maxTime);
+    public delegate void AttackRoundFinishedEventHandler(
+        float dodgeQuality,
+        bool playerHit);
     [Signal]
     public delegate void GameOverEventHandler();
+
     [Signal]
     public delegate void MoveButtonClickedEventHandler(Area2D hoveredArea);
-    
+
     [Signal]
     public delegate void OnHammerSpawnTimerTimeoutEventHandler(Vector2 position, int hammerCount);
-   
+
     [Signal]
     public delegate void PlayerGotHitEventHandler();
 
     [Signal]
-
     public delegate void PlayerDiedEventHandler();
 
     [Signal]
     public delegate void HammerDodgedEventHandler(float timeInside);
-    
+
     public void ResetForNewGame()
     {
         DisconnectAll(SignalName.AttackRoundFinished);
@@ -45,38 +45,44 @@ public partial class EventBus : Node
         }
     }
 
-    
-    public void EmitAttackRoundFinished(float reactionTime, bool playerHit, float maxTime)
+    public void EmitAttackRoundFinished(
+        float dodgeQuality,
+        bool playerHit)
     {
-        EmitSignal(nameof(AttackRoundFinished), reactionTime, playerHit, maxTime);
+        EmitSignal(
+            nameof(AttackRoundFinished),
+            dodgeQuality,
+            playerHit);
     }
+    
     public void EmitHammerDodged(float timeInside)
     {
-        EmitSignal(nameof(HammerDodged), timeInside);
+        EmitSignal(SignalName.HammerDodged, timeInside);
     }
+
     public void EmitPlayerDied()
     {
-        EmitSignal(nameof(PlayerDied));
+        EmitSignal(SignalName.PlayerDied);
     }
+
     public void EmitGameOver()
     {
-        EmitSignal(nameof(GameOver));
+        EmitSignal(SignalName.GameOver);
     }
+
     public void EmitEnemySpawn(Vector2 playerPos, int hammerCount)
     {
         GD.Print($"[EVENTBUS] EmitEnemySpawn {playerPos}");
-
-        EmitSignal(nameof(OnHammerSpawnTimerTimeout), playerPos, hammerCount);
+        EmitSignal(SignalName.OnHammerSpawnTimerTimeout, playerPos, hammerCount);
     }
-     
+
     public void EmitPlayerGotHit()
     {
-        EmitSignal(nameof(PlayerGotHit));
+        EmitSignal(SignalName.PlayerGotHit);
     }
+
     public void EmitMoveButtonClicked(Area2D area)
     {
-        EmitSignal(nameof(MoveButtonClicked), area);
-    } 
-    
-
+        EmitSignal(SignalName.MoveButtonClicked, area);
+    }
 }

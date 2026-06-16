@@ -1,23 +1,26 @@
 using Godot;
 using WhacAGuy.Gameplay.Controllers;
+using WhacAGuy.Gameplay.GameProgression;
+using WhacAGuy.Gameplay.Score;
 using WhacAGuy.Scenes.DodgeFeedback;
-
 
 public partial class GameManager : Node2D
 {
     [Export] private PackedScene _dodgeFeedbackScene;
-
     [Export] private Player _player;
     [Export] private HammerSpawner _hammerSpawner;
     [Export] private GameOverMenu _gameOverMenu;
     [Export] private Label _scoreLabel;
-
+    [Export] private Label _roundLabel;
+    
+    
     private bool _isGameOver = false;
-    private PlayerScore _playerScore;
 
+    private PlayerScore _playerScore;
     private EventBus _eventBus;
     private AttackRoundController _round;
-
+    private RoundProgression _roundProgression;
+    
     public override void _Ready()
     {
         GD.Print("[GAMEMANAGER] _Ready called");
@@ -28,10 +31,12 @@ public partial class GameManager : Node2D
 
         _playerScore = new PlayerScore();
         _round = new AttackRoundController();
+        _roundProgression = new RoundProgression();
 
         _player.Init(_eventBus);
         _gameOverMenu.Init(_eventBus);
         _hammerSpawner.Init(_eventBus, _player, _round);
+
         _round.Init(_eventBus);
 
         InjectDependenciesInGroup("MoveButtons");
@@ -42,17 +47,26 @@ public partial class GameManager : Node2D
 
         _eventBus.Connect(
             EventBus.SignalName.PlayerDied,
-            new Callable(this, nameof(OnPlayerDied))
-        );
+            new Callable(this, nameof(OnPlayerDied)));
 
         _eventBus.Connect(
             EventBus.SignalName.AttackRoundFinished,
-            new Callable(this, nameof(OnRoundFinished))
-        );
+            new Callable(this, nameof(OnRoundFinished)));
 
+        StartCurrentRound();
     }
 
-    private void OnRoundFinished(float timeInside, bool playerHit, float maxTime)
+    private void StartCurrentRound()
+    {
+        RoundData roundData = _roundProgression.GetRoundData();
+
+        _round.StartRound(roundData.HammerCount);
+        _hammerSpawner.Configure(roundData);
+    }
+
+    private void OnRoundFinished(
+        float dodgeQuality,
+        bool playerHit)
     {
         if (_isGameOver)
             return;
@@ -60,18 +74,32 @@ public partial class GameManager : Node2D
         if (playerHit)
             return;
 
-        _playerScore.AddScore(timeInside, playerHit, maxTime);
-        _scoreLabel.Text = $"Score: {_playerScore.Score}";
+        _playerScore.AddScore(dodgeQuality);
 
-        var rating = _playerScore.CalculateRating(timeInside, playerHit, maxTime);
+        _scoreLabel.Text =
+            $"Score: {_playerScore.Score}";
+        
+        var rating =
+            _playerScore.CalculateRating(dodgeQuality);
+
         ShowDodgeFeedback(rating);
 
+        _roundProgression.AdvanceRound();
+
+        var roundData =
+            _roundProgression.GetRoundData();
+
+        _hammerSpawner.Configure(roundData);
+        
+        _roundLabel.Text = $"Round: {_roundProgression.CurrentRound}";
+        _round.StartRound(roundData.HammerCount);
     }
 
     private void ShowDodgeFeedback(DodgeRating rating)
     {
         var feedback = _dodgeFeedbackScene.Instantiate<DodgeFeedback>();
         AddChild(feedback);
+
         feedback.Position = new Vector2(100, 100);
         feedback.Show(rating);
     }
@@ -82,11 +110,14 @@ public partial class GameManager : Node2D
             return;
 
         _isGameOver = true;
+
         _eventBus.EmitGameOver();
 
         _eventBus.Disconnect(
             EventBus.SignalName.AttackRoundFinished,
             new Callable(this, nameof(OnRoundFinished)));
+
+        GD.Print("GAME OVER");
     }
 
     private void InjectDependenciesInGroup(string groupName)

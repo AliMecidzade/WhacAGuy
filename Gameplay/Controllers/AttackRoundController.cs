@@ -6,12 +6,13 @@ public partial class AttackRoundController : IEventBusInjectable
 {
     private EventBus _eventBus;
 
-    private bool _playerHit = false;
-    private bool _running = false;
+    private bool _playerHit;
+    private bool _running;
+
     private int _finishedHammers;
     private int _expectedHammers;
-    private float _maxTimeInside;   
-    private float _maxTime;         
+
+    private float _bestQuality;
 
     public void Init(EventBus eventBus)
     {
@@ -22,10 +23,11 @@ public partial class AttackRoundController : IEventBusInjectable
     {
         _playerHit = false;
         _running = true;
+
         _finishedHammers = 0;
         _expectedHammers = totalHammerCount;
-        _maxTimeInside = 0f;
-        _maxTime = 0f;
+
+        _bestQuality = 0f;
     }
 
     public void RegisterHit()
@@ -36,24 +38,34 @@ public partial class AttackRoundController : IEventBusInjectable
         _playerHit = true;
     }
 
-    public void NotifyHammerFinished(float timeInside, float maxTime)
+    public void NotifyHammerFinished(
+        float timeInside,
+        float attackDelay)
     {
         if (!_running)
             return;
 
         _finishedHammers++;
 
-        if (timeInside > _maxTimeInside)
-            _maxTimeInside = timeInside;
+        float quality = 0f;
 
-        if (maxTime > _maxTime)
-            _maxTime = maxTime;
+        if (attackDelay > 0f)
+            quality = timeInside / attackDelay;
+
+        quality = Mathf.Clamp(quality, 0f, 1f);
+
+        if (quality > _bestQuality)
+            _bestQuality = quality;
 
         if (_finishedHammers < _expectedHammers)
             return;
 
         _running = false;
 
-        _eventBus.EmitAttackRoundFinished(_maxTimeInside, _playerHit, _maxTime);
+        GD.Print($"END ROUND quality={_bestQuality} hit={_playerHit}");
+
+        _eventBus.EmitAttackRoundFinished(
+            _bestQuality,
+            _playerHit);
     }
 }
