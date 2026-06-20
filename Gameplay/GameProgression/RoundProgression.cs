@@ -18,7 +18,7 @@ public class RoundProgression
         return new RoundData
         {
             HammerCount =
-                Mathf.Min(5, 4 + (_currentRound - 1) / 5),
+                Mathf.Min(5, 2 + (_currentRound - 1) / 5),
 
             SpawnDelay =
                 Mathf.Max(

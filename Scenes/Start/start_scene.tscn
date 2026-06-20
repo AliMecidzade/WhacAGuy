@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2f8b7nc3wc0b"]
+[gd_scene format=3 uid="uid://b2f8b7nc3wc0b"]
 
 [ext_resource type="Script" uid="uid://b67a8uurgfiq3" path="res://Scenes/Start/MainMenu.cs" id="1_7lj27"]
 
@@ -7,7 +7,7 @@ font_size = 58
 font_color = Color(0.843137, 0.898039, 0.729412, 1)
 outline_size = 4
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=1731834228]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -18,7 +18,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7lj27")
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=252652106]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -35,7 +35,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Start" type="Button" parent="."]
+[node name="Start" type="Button" parent="." unique_id=969195532]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.408
@@ -49,7 +49,7 @@ pivot_offset = Vector2(91.2, 20.84)
 text = "START"
 metadata/_edit_use_anchors_ = true
 
-[node name="Quit" type="Button" parent="."]
+[node name="Quit" type="Button" parent="." unique_id=1073672401]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.408
@@ -62,7 +62,7 @@ offset_bottom = -0.110199
 pivot_offset = Vector2(101.36, 20.04)
 text = "QUIT"
 
-[node name="Settings" type="Button" parent="."]
+[node name="Settings" type="Button" parent="." unique_id=731612381]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.408

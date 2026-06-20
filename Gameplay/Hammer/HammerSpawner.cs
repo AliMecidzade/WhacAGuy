@@ -122,5 +122,7 @@ public partial class HammerSpawner : Node
 
             availablePoints.RemoveAt(index);
         }
+        
+        _eventBus.EmitRoundAttackPhaseStarted(_currentRoundData.AttackDelay);
     }
 }

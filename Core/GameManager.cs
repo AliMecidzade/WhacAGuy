@@ -12,7 +12,7 @@ public partial class GameManager : Node2D
     [Export] private GameOverMenu _gameOverMenu;
     [Export] private Label _scoreLabel;
     [Export] private Label _roundLabel;
-    
+    [Export] private TimerBar _timerBar; 
     
     private bool _isGameOver = false;
 
@@ -36,15 +36,16 @@ public partial class GameManager : Node2D
         _player.Init(_eventBus);
         _gameOverMenu.Init(_eventBus);
         _hammerSpawner.Init(_eventBus, _player, _round);
-
+        _timerBar.Init(_eventBus);
         _round.Init(_eventBus);
-
+    
         InjectDependenciesInGroup("MoveButtons");
 
         _player.Start();
         _hammerSpawner.Start();
         _gameOverMenu.Start();
-
+        _timerBar.Start();
+        
         _eventBus.Connect(
             EventBus.SignalName.PlayerDied,
             new Callable(this, nameof(OnPlayerDied)));
@@ -52,16 +53,16 @@ public partial class GameManager : Node2D
         _eventBus.Connect(
             EventBus.SignalName.AttackRoundFinished,
             new Callable(this, nameof(OnRoundFinished)));
-
         StartCurrentRound();
     }
 
     private void StartCurrentRound()
     {
         RoundData roundData = _roundProgression.GetRoundData();
-
+        
         _round.StartRound(roundData.HammerCount);
         _hammerSpawner.Configure(roundData);
+        // _timerBar.ShowTimerBar(roundData.AttackDelay);
     }
 
     private void OnRoundFinished(

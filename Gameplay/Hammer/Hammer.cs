@@ -75,5 +75,6 @@ public partial class Hammer : Area2D
     {
         _isPlayerInArea = false;
         SetProcess(false);
+        _round?.NotifyHammerExited(_timeInside, _attackDelay);
     }
 }

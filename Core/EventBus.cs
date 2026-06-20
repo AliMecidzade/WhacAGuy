@@ -10,6 +10,9 @@ public partial class EventBus : Node
     public delegate void GameOverEventHandler();
 
     [Signal]
+    public delegate void RoundAttackPhaseStartedEventHandler(float attackDelay); 
+    
+    [Signal]
     public delegate void MoveButtonClickedEventHandler(Area2D hoveredArea);
 
     [Signal]
@@ -26,6 +29,7 @@ public partial class EventBus : Node
 
     public void ResetForNewGame()
     {
+        DisconnectAll(SignalName.RoundAttackPhaseStarted);
         DisconnectAll(SignalName.AttackRoundFinished);
         DisconnectAll(SignalName.GameOver);
         DisconnectAll(SignalName.MoveButtonClicked);
@@ -45,6 +49,13 @@ public partial class EventBus : Node
         }
     }
 
+    public void EmitRoundAttackPhaseStarted(
+        float attackDelay)
+    {
+        EmitSignal(
+            nameof(RoundAttackPhaseStarted), 
+            attackDelay);
+    }
     public void EmitAttackRoundFinished(
         float dodgeQuality,
         bool playerHit)

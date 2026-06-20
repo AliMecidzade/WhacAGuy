@@ -7,8 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://s30trirmuxnj" path="res://Assets/Sprites/Buttons/escapeArea.png" id="3_vudmy"]
 [ext_resource type="PackedScene" uid="uid://dj4qk8q27ifai" path="res://Gameplay/Player/player.tscn" id="4_ip5ju"]
 [ext_resource type="Script" uid="uid://dnlxt8xp8bfnl" path="res://Gameplay/Hammer/HammerSpawner.cs" id="5_d5b16"]
+[ext_resource type="PackedScene" uid="uid://ixxv8gft5m55" path="res://Scenes/TimerBar/timer_bar.tscn" id="8_vudmy"]
 
-[node name="MainScene" type="Node2D" unique_id=149247795 node_paths=PackedStringArray("_player", "_hammerSpawner", "_gameOverMenu", "_scoreLabel", "_roundLabel")]
+[node name="MainScene" type="Node2D" unique_id=149247795 node_paths=PackedStringArray("_player", "_hammerSpawner", "_gameOverMenu", "_scoreLabel", "_roundLabel", "_timerBar")]
 script = ExtResource("1_ip5ju")
 _dodgeFeedbackScene = ExtResource("2_vudmy")
 _player = NodePath("PlayerRoot")
@@ -16,6 +17,7 @@ _hammerSpawner = NodePath("HammerSpawner")
 _gameOverMenu = NodePath("GameOverMenu")
 _scoreLabel = NodePath("ScoreLabel")
 _roundLabel = NodePath("RoundLabel")
+_timerBar = NodePath("TimerBarControl")
 
 [node name="DodgeFeedback" parent="." unique_id=1793106495 instance=ExtResource("2_vudmy")]
 offset_left = 79.0
@@ -148,3 +150,10 @@ offset_left = 563.945
 offset_right = 626.94507
 offset_bottom = 23.0
 text = "Round : 1"
+
+[node name="TimerBarControl" parent="." unique_id=1285524392 instance=ExtResource("8_vudmy")]
+texture_filter = 1
+offset_left = 223.0
+offset_top = 123.0
+offset_right = 223.0
+offset_bottom = 123.0
