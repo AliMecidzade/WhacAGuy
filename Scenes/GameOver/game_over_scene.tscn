@@ -2,12 +2,13 @@
 
 [ext_resource type="Script" uid="uid://c1nv4x1b61kla" path="res://Scenes/GameOver/GameOverMenu.cs" id="1_hecnh"]
 
-[node name="GameOverMenu" type="CanvasLayer" unique_id=595466416 node_paths=PackedStringArray("_tryAgainButton", "_exitButton", "_backToMainMenuButton")]
+[node name="GameOverMenu" type="CanvasLayer" unique_id=595466416 node_paths=PackedStringArray("_tryAgainButton", "_exitButton", "_backToMainMenuButton", "_playerHighScore")]
 visible = false
 script = ExtResource("1_hecnh")
 _tryAgainButton = NodePath("Control/TryAgain")
 _exitButton = NodePath("Control/Exit")
 _backToMainMenuButton = NodePath("Control/BackToMain")
+_playerHighScore = NodePath("Control/HighScoreValueLabel")
 
 [node name="Control" type="Control" parent="." unique_id=1894714035]
 layout_mode = 3
@@ -81,3 +82,11 @@ offset_bottom = -4.41
 grow_horizontal = 2
 grow_vertical = 0
 text = "Back To Main"
+
+[node name="HighScoreValueLabel" type="Label" parent="Control" unique_id=877206491]
+layout_mode = 0
+offset_left = -63.33334
+offset_top = 36.66666
+offset_right = 27.66666
+offset_bottom = 59.66666
+text = "High Score: "

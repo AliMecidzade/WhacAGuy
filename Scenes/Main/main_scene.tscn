@@ -32,14 +32,14 @@ position = Vector2(374, 166)
 zoom = Vector2(1.63, 1.63)
 
 [node name="LeftButton" parent="." unique_id=1161926889 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(262, 283)
-rotation = -1.5708
-scale = Vector2(0.5, 0.5)
+position = Vector2(293, 270.00003)
+rotation = -1.5707964
+scale = Vector2(0.35, 0.35)
 
 [node name="RightButton" parent="." unique_id=1781968908 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(484, 270)
+position = Vector2(453, 270.00003)
 rotation = 1.5707964
-scale = Vector2(0.5, 0.5)
+scale = Vector2(-0.35, 0.35)
 
 [node name="EscapeArea" type="Sprite2D" parent="." unique_id=711571359]
 texture_filter = 1
@@ -153,7 +153,7 @@ text = "Round : 1"
 
 [node name="TimerBarControl" parent="." unique_id=1285524392 instance=ExtResource("8_vudmy")]
 texture_filter = 1
-offset_left = 223.0
-offset_top = 123.0
-offset_right = 223.0
-offset_bottom = 123.0
+offset_left = 400.0
+offset_top = 136.0
+offset_right = 400.0
+offset_bottom = 136.0

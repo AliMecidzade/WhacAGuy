@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
+using WhacAGuy.Core;
 using WhacAGuy.Gameplay.Controllers;
 using WhacAGuy.Gameplay.GameProgression;
 using WhacAGuy.Gameplay.Score;
@@ -15,24 +18,31 @@ public partial class GameManager : Node2D
     [Export] private TimerBar _timerBar; 
     
     private bool _isGameOver = false;
-
+    private GameSaveService _gameSaveService;
     private PlayerScore _playerScore;
     private EventBus _eventBus;
     private AttackRoundController _round;
     private RoundProgression _roundProgression;
     
+    public override void _Process(double delta)
+    {
+        if (_round != null && _round.IsRunning)
+            _round.AccumulateTime((float)delta);
+    }
+
     public override void _Ready()
     {
         GD.Print("[GAMEMANAGER] _Ready called");
         GD.Print("[GAMEMANAGER] EventBus exists: " + HasNode("/root/EventBus"));
-
+        
         _eventBus = GetNode<EventBus>("/root/EventBus");
         _eventBus.ResetForNewGame();
-
+    
         _playerScore = new PlayerScore();
         _round = new AttackRoundController();
         _roundProgression = new RoundProgression();
-
+        _gameSaveService = new GameSaveService();
+        
         _player.Init(_eventBus);
         _gameOverMenu.Init(_eventBus);
         _hammerSpawner.Init(_eventBus, _player, _round);
@@ -58,10 +68,12 @@ public partial class GameManager : Node2D
 
     private void StartCurrentRound()
     {
+        
         RoundData roundData = _roundProgression.GetRoundData();
         
-        _round.StartRound(roundData.HammerCount);
+        _round.StartRound(roundData.HammerCount, roundData.AttackDelay);
         _hammerSpawner.Configure(roundData);
+        
         // _timerBar.ShowTimerBar(roundData.AttackDelay);
     }
 
@@ -93,7 +105,7 @@ public partial class GameManager : Node2D
         _hammerSpawner.Configure(roundData);
         
         _roundLabel.Text = $"Round: {_roundProgression.CurrentRound}";
-        _round.StartRound(roundData.HammerCount);
+        _round.StartRound(roundData.HammerCount, roundData.AttackDelay);
     }
 
     private void ShowDodgeFeedback(DodgeRating rating)
@@ -111,13 +123,15 @@ public partial class GameManager : Node2D
             return;
 
         _isGameOver = true;
-
+        _gameSaveService.SaveOnDeath(_playerScore.Score);
         _eventBus.EmitGameOver();
 
         _eventBus.Disconnect(
             EventBus.SignalName.AttackRoundFinished,
             new Callable(this, nameof(OnRoundFinished)));
 
+        
+        
         GD.Print("GAME OVER");
     }
 

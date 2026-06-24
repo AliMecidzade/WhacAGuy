@@ -8,9 +8,6 @@ public partial class Hammer : Area2D
     private AttackRoundController _round;
     private EventBus _eventBus;
 
-    private float _timeInside = 0f;
-    private bool _isPlayerInArea = false;
-
     private float _attackDelay = 0.5f;
 
     public void Init(EventBus eventBus, AttackRoundController round)
@@ -31,50 +28,50 @@ public partial class Hammer : Area2D
     {
         _attackTimer = GetNode<Timer>("BeforeAttackTimer");
         _attackTimer.WaitTime = _attackDelay;
-        GD.Print($"HAMMER DELAY = {_attackDelay}");
         _attackTimer.Timeout += OnAttackTimerTimeout;
 
         AreaEntered += OnHammerAttackZoneEntered;
         AreaExited += OnHammerAttackZoneExited;
 
-        SetProcess(false);
-
         _attackTimer.Start();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (!_isPlayerInArea)
-            return;
-
-        _timeInside += (float)delta;
     }
 
     private void OnAttackTimerTimeout()
     {
-        if (_isPlayerInArea)
+        bool playerInArea = false;
+        foreach (Area2D area in GetOverlappingAreas())
+        {
+            if (area.GetParent() is Player)
+            {
+                playerInArea = true;
+                break;
+            }
+        }
+
+        if (playerInArea)
         {
             _round?.RegisterHit();
             _eventBus.EmitPlayerGotHit();
         }
 
-        _round?.NotifyHammerFinished(
-            _timeInside,
-            _attackDelay);
+        _round?.NotifyHammerFinished(0f, _attackDelay);
 
         QueueFree();
     }
 
     private void OnHammerAttackZoneEntered(Area2D area)
     {
-        _isPlayerInArea = true;
-        SetProcess(true);
+        if (area.GetParent() is Player)
+        {
+            _round?.NotifyHammerEntered();
+        }
     }
 
     private void OnHammerAttackZoneExited(Area2D area)
     {
-        _isPlayerInArea = false;
-        SetProcess(false);
-        _round?.NotifyHammerExited(_timeInside, _attackDelay);
+        if (area.GetParent() is Player)
+        {
+            _round?.NotifyHammerExited();
+        }
     }
 }

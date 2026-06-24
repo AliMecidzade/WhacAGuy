@@ -12,16 +12,18 @@ public partial class AttackRoundController : IEventBusInjectable
     private int _finishedHammers;
     private int _expectedHammers;
 
-    private float _lastExitTimeInside;
-    private float _lastExitAttackDelay;
-    private bool _hasLastExit;
+    private int _playerOnHammerCount;
+    private float _totalTimeOnAnyHammer;
+    private float _roundDuration;
+
+    public bool IsRunning => _running;
 
     public void Init(EventBus eventBus)
     {
         _eventBus = eventBus;
     }
 
-    public void StartRound(int totalHammerCount)
+    public void StartRound(int totalHammerCount, float attackDelay)
     {
         _playerHit = false;
         _running = true;
@@ -29,31 +31,37 @@ public partial class AttackRoundController : IEventBusInjectable
         _finishedHammers = 0;
         _expectedHammers = totalHammerCount;
 
-        _lastExitTimeInside = 0f;
-        _lastExitAttackDelay = 0f;
-        _hasLastExit = false;
+        _playerOnHammerCount = 0;
+        _totalTimeOnAnyHammer = 0f;
+        _roundDuration = attackDelay;
     }
 
-    public void NotifyHammerExited(
-        float timeInside,
-        float attackDelay)
+    public void NotifyHammerEntered()
     {
-        _lastExitTimeInside = timeInside;
-        _lastExitAttackDelay = attackDelay;
-        _hasLastExit = true;
+        _playerOnHammerCount++;
+    }
+
+    public void NotifyHammerExited()
+    {
+        if (_playerOnHammerCount > 0)
+            _playerOnHammerCount--;
+    }
+
+    public void AccumulateTime(float delta)
+    {
+        if (!_running || _playerOnHammerCount == 0)
+            return;
+        _totalTimeOnAnyHammer += delta;
     }
 
     public void RegisterHit()
     {
         if (!_running)
             return;
-
         _playerHit = true;
     }
 
-    public void NotifyHammerFinished(
-        float timeInside,
-        float attackDelay)
+    public void NotifyHammerFinished(float timeInside, float attackDelay)
     {
         if (!_running)
             return;
@@ -65,18 +73,12 @@ public partial class AttackRoundController : IEventBusInjectable
 
         _running = false;
 
-        float usedTimeInside = _hasLastExit ? _lastExitTimeInside : timeInside;
-        float usedAttackDelay = _hasLastExit ? _lastExitAttackDelay : attackDelay;
-
-        float quality = 0f;
-        if (usedAttackDelay > 0f)
-            quality = usedTimeInside / usedAttackDelay;
-        quality = Mathf.Clamp(quality, 0f, 1f);
+        float quality = _roundDuration > 0f
+            ? Mathf.Clamp(_totalTimeOnAnyHammer / _roundDuration, 0f, 1f)
+            : 0f;
 
         GD.Print($"END ROUND quality={quality} hit={_playerHit}");
 
-        _eventBus.EmitAttackRoundFinished(
-            quality,
-            _playerHit);
+        _eventBus.EmitAttackRoundFinished(quality, _playerHit);
     }
 }

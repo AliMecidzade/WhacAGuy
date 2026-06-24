@@ -1,23 +1,27 @@
 [gd_scene format=3 uid="uid://bf7pexjmvxv5n"]
 
 [ext_resource type="Script" uid="uid://dsidkl475xty3" path="res://Gameplay/MoveButton/MoveButton.cs" id="1_anien"]
-[ext_resource type="Texture2D" uid="uid://cl6v4jrb153vr" path="res://Assets/Sprites/Buttons/moveButton.png" id="2_jt7ti"]
+[ext_resource type="Texture2D" uid="uid://c5rdj6q3toeto" path="res://Assets/Sprites/Buttons/Move Button/moveButtonNew.png" id="2_4kd3q"]
+[ext_resource type="Texture2D" uid="uid://d17u8edig1jjw" path="res://Assets/Sprites/Buttons/Move Button/moveButtonNewPressed.png" id="3_8feeu"]
 
-[node name="Area2D" type="Area2D" unique_id=223682688]
+[node name="Area2D" type="Area2D" unique_id=223682688 node_paths=PackedStringArray("_sprite")]
 position = Vector2(-1, 0)
 scale = Vector2(2, 2)
 script = ExtResource("1_anien")
+moveButtonTexture = ExtResource("2_4kd3q")
+moveButtonTexturePressed = ExtResource("3_8feeu")
+_sprite = NodePath("Sprite2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=423070703]
 texture_filter = 1
 position = Vector2(-2, -4)
 rotation = -1.5707964
 scale = Vector2(3, 3)
-texture = ExtResource("2_jt7ti")
+texture = ExtResource("2_4kd3q")
 offset = Vector2(0.666667, 1.33333)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2101145885]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=883405025]
 position = Vector2(-2, -4)
 rotation = -1.5707964
 scale = Vector2(3, 3)
-polygon = PackedVector2Array(52.666664, 2.2333298, 6.7666626, -28.966671, 4.666664, -27.866673, 4.666664, -26.466671, 1.6666641, -23.466671, 1.6666641, -12.666672, -60.433334, -10.666672, -63.333332, -10.666672, -63.333332, -9.26667, -61.333332, 19.433327, -61.333332, 22.333328, 1.6666641, 22.333328, 1.6666641, 31.033325, 5.666664, 36.33333, 10.266663, 36.33333, 52.666664, 6.3333282)
+polygon = PackedVector2Array(-50.333332, -56.66667, -50.333332, -54.96667, -52.333332, -53.86667, -52.333332, 49.33333, 50.666664, 49.33333, 50.666664, -54.66667)

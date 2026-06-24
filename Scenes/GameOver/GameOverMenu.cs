@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Data;
 
 public partial class GameOverMenu : CanvasLayer
 {
@@ -9,8 +10,8 @@ public partial class GameOverMenu : CanvasLayer
 	[Export] private Button _tryAgainButton; 
 	[Export] private Button _exitButton;
 	[Export] private Button _backToMainMenuButton;
-	
-	
+	[Export] private Label _playerHighScore;
+	 
 	public void Init(EventBus eventBus)
 	{
 		_eventBus = eventBus;
@@ -32,7 +33,7 @@ public partial class GameOverMenu : CanvasLayer
 	
 	public override void _Ready()
 	{
-
+		
 		_exitButton.Pressed += OnExitButtonPressed;
 		_backToMainMenuButton.Pressed += OnBackToMainButtonPressed;
 		_tryAgainButton.Pressed += OnTryAgainButtonPressed;
@@ -62,6 +63,8 @@ public partial class GameOverMenu : CanvasLayer
 
 	private void ShowGameOverMenu()
 	{
+		SaveData data = SaveManager.Instance.Load();
+		_playerHighScore.Text = "High Score: " + data.HighScore.ToString();
 		this.Visible = true;
 	}
 	

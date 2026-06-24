@@ -2,9 +2,13 @@ using Godot;
 
 public partial class MoveButton : Area2D , IEventBusInjectable
 {
+
+    [Export] private Texture2D moveButtonTexture; 
+    [Export] private Texture2D moveButtonTexturePressed; 
+    [Export] private Sprite2D _sprite;
+    
     
     private EventBus _eventBus;
-
     private float _areaAngle; 
 
 
@@ -36,7 +40,12 @@ public partial class MoveButton : Area2D , IEventBusInjectable
         {
             if (mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
             {
+                _sprite.Texture = moveButtonTexturePressed;
                 OnMouseClicked();
+            }
+            else
+            {
+                _sprite.Texture = moveButtonTexture;
             }
         }
     }
