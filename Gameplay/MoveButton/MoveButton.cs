@@ -2,11 +2,12 @@ using Godot;
 
 public partial class MoveButton : Area2D , IEventBusInjectable
 {
+    public enum DirectionType { Left, Right }
 
     [Export] private Texture2D moveButtonTexture; 
     [Export] private Texture2D moveButtonTexturePressed; 
     [Export] private Sprite2D _sprite;
-    
+    [Export] public DirectionType Direction = DirectionType.Left;
     
     private EventBus _eventBus;
     private float _areaAngle; 
@@ -49,9 +50,14 @@ public partial class MoveButton : Area2D , IEventBusInjectable
             }
         }
     }
+    public void SetVisualPressed(bool pressed)
+    {
+        _sprite.Texture = pressed ? moveButtonTexturePressed : moveButtonTexture;
+    }
+
     private void OnMouseClicked()
     {
         _eventBus.EmitMoveButtonClicked(this);
-        
+        GD.Print("OnMouseClicked");
     }
 }

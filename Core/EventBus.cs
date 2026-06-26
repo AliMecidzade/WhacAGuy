@@ -16,6 +16,9 @@ public partial class EventBus : Node
     public delegate void MoveButtonClickedEventHandler(Area2D hoveredArea);
 
     [Signal]
+    public delegate void MoveClickedEventHandler(bool isLeft);
+
+    [Signal]
     public delegate void OnHammerSpawnTimerTimeoutEventHandler(Vector2 position, int hammerCount);
 
     [Signal]
@@ -33,6 +36,7 @@ public partial class EventBus : Node
         DisconnectAll(SignalName.AttackRoundFinished);
         DisconnectAll(SignalName.GameOver);
         DisconnectAll(SignalName.MoveButtonClicked);
+        DisconnectAll(SignalName.MoveClicked);
         DisconnectAll(SignalName.OnHammerSpawnTimerTimeout);
         DisconnectAll(SignalName.PlayerGotHit);
         DisconnectAll(SignalName.PlayerDied);
@@ -95,5 +99,10 @@ public partial class EventBus : Node
     public void EmitMoveButtonClicked(Area2D area)
     {
         EmitSignal(SignalName.MoveButtonClicked, area);
+    }
+
+    public void EmitMoveClicked(bool isLeft)
+    {
+        EmitSignal(SignalName.MoveClicked, isLeft);
     }
 }

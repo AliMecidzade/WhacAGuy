@@ -7,6 +7,9 @@ public class GameSaveService
 {
     public void SaveOnDeath(int score)
     {
+        if (SaveManager.Instance == null)
+            return;
+
         SaveData data = SaveManager.Instance.Load();
         var scores = new HighScoreList(data.Scores);
         scores.Add(score);

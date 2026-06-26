@@ -32,12 +32,12 @@ position = Vector2(374, 166)
 zoom = Vector2(1.63, 1.63)
 
 [node name="LeftButton" parent="." unique_id=1161926889 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(293, 270.00003)
+position = Vector2(288, 270.00003)
 rotation = -1.5707964
 scale = Vector2(0.35, 0.35)
 
 [node name="RightButton" parent="." unique_id=1781968908 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(453, 270.00003)
+position = Vector2(458.99997, 270.00003)
 rotation = 1.5707964
 scale = Vector2(-0.35, 0.35)
 
