@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://ixxv8gft5m55"]
+
+[ext_resource type="Script" uid="uid://5phsjgwvovao" path="res://Scenes/TimerBar/TimerBar.cs" id="1_kiw0k"]
+
+[node name="TimerBarControl" type="Control" unique_id=1285524392 node_paths=PackedStringArray("_timerBar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kiw0k")
+_timerBar = NodePath("TimerBar")
+
+[node name="TimerBar" type="ProgressBar" parent="." unique_id=410534215]
+texture_filter = 1
+layout_mode = 0
+offset_left = 27.0
+offset_top = 1.0
+offset_right = 31.0
+offset_bottom = 28.0
+rotation = 1.5733116
+scale = Vector2(4, 4)
+value = 56.23
+fill_mode = 2
+show_percentage = false

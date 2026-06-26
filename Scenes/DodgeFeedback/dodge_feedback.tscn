@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dx3bj1p5bkk6u"]
+
+[ext_resource type="Script" uid="uid://bip32m121ecpe" path="res://Scenes/DodgeFeedback/DodgeFeedback.cs" id="1_tx6jl"]
+
+[node name="Control" type="Control" unique_id=1645412035 node_paths=PackedStringArray("_ratingMessage")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_tx6jl")
+_ratingMessage = NodePath("Label")
+
+[node name="Label" type="Label" parent="." unique_id=480368546]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
