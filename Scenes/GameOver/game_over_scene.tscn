@@ -48,9 +48,7 @@ offset_right = 41.0
 offset_bottom = -38.515
 grow_horizontal = 2
 grow_vertical = 2
-text = "Try Again
-"
-
+text = "Try Again"
 [node name="Exit" type="Button" parent="Control" unique_id=357651815]
 texture_filter = 1
 layout_mode = 1
@@ -65,9 +63,7 @@ offset_right = 19.0
 offset_bottom = 32.175
 grow_horizontal = 2
 grow_vertical = 0
-text = "Exit
-"
-
+text = "Exit"
 [node name="BackToMain" type="Button" parent="Control" unique_id=308291148]
 layout_mode = 1
 anchors_preset = 7

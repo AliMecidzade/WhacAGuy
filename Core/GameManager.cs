@@ -29,47 +29,6 @@ public partial class GameManager : Node2D
             _round.AccumulateTime((float)delta);
     }
 
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton mb && mb.ButtonIndex == MouseButton.Left)
-        {
-            if (!mb.Pressed)
-            {
-                foreach (Node node in GetTree().GetNodesInGroup("MoveButtons"))
-                    if (node is MoveButton btn)
-                        btn.SetVisualPressed(false);
-                return;
-            }
-
-            Vector2 clickPos = mb.Position;
-            float radius = 100f;
-            MoveButton closest = null;
-            float closestDist = radius;
-
-            foreach (Node node in GetTree().GetNodesInGroup("MoveButtons"))
-            {
-                if (node is MoveButton btn)
-                {
-                    float dist = clickPos.DistanceTo(btn.GlobalPosition);
-                    if (dist < closestDist)
-                    {
-                        closestDist = dist;
-                        closest = btn;
-                    }
-                }
-            }
-
-            if (closest != null)
-            {
-                closest.SetVisualPressed(true);
-                bool isLeft = closest.GlobalPosition.X < 480;
-                GD.Print($"[GAMEMANAGER] {closest.Name} clicked isLeft={isLeft}");
-                _eventBus.EmitMoveClicked(isLeft);
-                GetViewport().SetInputAsHandled();
-            }
-        }
-    }
-
     public override void _Ready()
     {
         GD.Print("[GAMEMANAGER] _Ready called");

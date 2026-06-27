@@ -10,7 +10,7 @@ public partial class MoveButton : Area2D , IEventBusInjectable
     [Export] public DirectionType Direction = DirectionType.Left;
     
     private EventBus _eventBus;
-    private float _areaAngle; 
+    private float _areaAngle;
 
 
     public float Angle {
@@ -28,9 +28,6 @@ public partial class MoveButton : Area2D , IEventBusInjectable
     public override void _Ready()
     {
         _areaAngle = this.Rotation;
-        
-
-
     }
 
 

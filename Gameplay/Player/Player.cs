@@ -9,16 +9,23 @@ public partial class Player : Node2D
     [Export] private Timer _scoreTimer; 
     [Export] private AnimatedSprite2D _playerSprite;    
     
-    private float _rotationSpeed;
-    private float _roatationAngle = 45f;
+    private float _rotationAngle = 45f;
     private EventBus _eventBus;
     private bool _isDead = false;
+    private bool _isRotating = false;
+    private Tween _tween;
     public bool IsDead => _isDead;
+
+    private void OnRotationFinished()
+    {
+        _isRotating = false;
+        _playerSprite.SpeedScale = 1.0f;
+        _playerSprite.Stop();
+    }
     
     public void Init(EventBus eventBus)
     {
         _eventBus = eventBus;
-        
     }
     
     
@@ -26,7 +33,6 @@ public partial class Player : Node2D
     { 
        GD.Print("Player Ready");
 
-       
     }
 
     
@@ -74,43 +80,32 @@ public partial class Player : Node2D
         
         Rotate(rotationDegrees);
         
+        
     }
 
    
     
-    private new void Rotate(float escapeAreaAngle)
+     private new void Rotate(float escapeAreaAngle)
     {
-        
+        if (_isRotating) return;
+        _isRotating = true;
+
+        _tween = CreateTween();
+        _tween.Finished += OnRotationFinished;
+        _tween.SetTrans(Tween.TransitionType.Sine);
+
+        _playerSprite.SpeedScale = 4.0f;
+
         if (escapeAreaAngle > 0)
         {
-            this.RotationDegrees += _roatationAngle;
-            if (_playerSprite.Frame < 7 )
-            {
-                _playerSprite.Frame += 1;
-            
-            }
-            else
-            {
-                _playerSprite.Frame = 0;
-            }
-          
+            _playerSprite.Play("spin");
+            _tween.TweenProperty(this, "rotation", Rotation + Mathf.DegToRad(_rotationAngle), 0.22f);
         }
         else
         {
-            this.RotationDegrees -= _roatationAngle; 
-            if (_playerSprite.Frame > 0 )
-            {
-                _playerSprite.Frame -= 1;
-
-            }
-            else
-            {
-                _playerSprite.Frame = 7;
-            }
+            _playerSprite.PlayBackwards("spin");
+            _tween.TweenProperty(this, "rotation", Rotation - Mathf.DegToRad(_rotationAngle), 0.22f);
         }
-
-        
-
     } 
     
 }

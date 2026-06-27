@@ -3,41 +3,44 @@
 [ext_resource type="Script" uid="uid://dtxley0m4t6hg" path="res://Gameplay/Player/Player.cs" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://jxyjbgmbi2r3" path="res://Assets/Sprites/Player/guy.png" id="2_t4lfm"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hkase"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4lfm"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0t57j"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkase"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(128, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bsnc0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0t57j"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(256, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p1coc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsnc0"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(384, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vmb5c"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1coc"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(512, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bpqns"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmb5c"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(640, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7jsif"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bpqns"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(768, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_xydi1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7jsif"]
 atlas = ExtResource("2_t4lfm")
 region = Rect2(896, 0, 128, 128)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_uf51g"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_xydi1"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4lfm")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hkase")
 }, {
@@ -58,9 +61,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_7jsif")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xydi1")
 }],
 "loop": true,
 "name": &"spin",
@@ -76,10 +76,9 @@ _playerSprite = NodePath("CharacterBody2D/AnimatedSprite2D")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=208893387]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1969578661]
-texture_filter = 1
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D" unique_id=1972432283]
 position = Vector2(6, -40)
-sprite_frames = SubResource("SpriteFrames_uf51g")
+sprite_frames = SubResource("SpriteFrames_xydi1")
 animation = &"spin"
 
 [node name="HeadAnchor" type="Area2D" parent="." unique_id=1479376275]
