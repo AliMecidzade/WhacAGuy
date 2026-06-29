@@ -101,12 +101,24 @@ public partial class HammerSpawner : Node
         if (hammerNumber <= 0)
             return;
 
+        Node2D nearestPoint = null;
+        float minDist = float.MaxValue;
+        foreach (Node2D point in _spawnPoints)
+        {
+            float dist = playerPos.DistanceTo(point.GlobalPosition);
+            if (dist < minDist)
+            {
+                minDist = dist;
+                nearestPoint = point;
+            }
+        }
+
         Hammer centerHammer = CreateHammer();
         AddChild(centerHammer);
-        centerHammer.GlobalPosition = playerPos;
+        centerHammer.GlobalPosition = nearestPoint.GlobalPosition;
 
         List<Node2D> availablePoints = new(_spawnPoints);
-        availablePoints.RemoveAll(p => p.GlobalPosition.DistanceTo(playerPos) < 30f);
+        availablePoints.Remove(nearestPoint);
 
         for (int i = 1; i < hammerNumber; i++)
         {
@@ -122,7 +134,7 @@ public partial class HammerSpawner : Node
 
             availablePoints.RemoveAt(index);
         }
-        
+
         _eventBus.EmitRoundAttackPhaseStarted(_currentRoundData.AttackDelay);
     }
 }

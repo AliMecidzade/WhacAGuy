@@ -15,6 +15,7 @@ public partial class Player : Node2D
     private bool _isRotating = false;
     private Tween _tween;
     public bool IsDead => _isDead;
+    public bool IsMoving => _isRotating;
 
     private void OnRotationFinished()
     {

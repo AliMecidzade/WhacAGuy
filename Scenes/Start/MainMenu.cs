@@ -8,7 +8,6 @@ public partial class MainMenu : Control
 	public override void _Ready()
 	{
 		_startButton = GetNode<Button>("Start");
-		_settingsButton = GetNode<Button>("Settings");
 		_quitButton = GetNode<Button>("Quit");
 
 		_startButton.Pressed += OnStartButtonPressed;

@@ -39,16 +39,22 @@ public partial class Hammer : Area2D
     private void OnAttackTimerTimeout()
     {
         bool playerInArea = false;
+        bool playerDodged = false;
+
         foreach (Area2D area in GetOverlappingAreas())
         {
-            if (area.GetParent() is Player)
+            if (area.GetParent() is Player player)
             {
                 playerInArea = true;
-                break;
+                if (player.IsMoving)
+                {
+                    playerDodged = true;
+                    break;
+                }
             }
         }
 
-        if (playerInArea)
+        if (playerInArea && !playerDodged)
         {
             _round?.RegisterHit();
             _eventBus.EmitPlayerGotHit();

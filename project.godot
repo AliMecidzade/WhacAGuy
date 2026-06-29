@@ -20,8 +20,9 @@ config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 
 [autoload]
 
-EventBus="res://AutoLoad/event_bus.tscn"
+EventBus="*res://AutoLoad/event_bus.tscn"
 SaveManager="*uid://c07veav0uyb1i"
+AudioManager="*uid://c56k3nw65sdpr"
 
 [display]
 

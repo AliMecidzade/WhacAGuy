@@ -23,6 +23,7 @@ public partial class GameManager : Node2D
     private EventBus _eventBus;
     private AttackRoundController _round;
     private RoundProgression _roundProgression;
+    private AudioHandler _audioHandler;
     public override void _Process(double delta)
     {
         if (_round != null && _round.IsRunning)
@@ -41,13 +42,16 @@ public partial class GameManager : Node2D
         _round = new AttackRoundController();
         _roundProgression = new RoundProgression();
         _gameSaveService = new GameSaveService();
-        
+        _audioHandler = new AudioHandler();
+        AddChild(_audioHandler);
+
         _player.Init(_eventBus);
         _gameOverMenu.Init(_eventBus);
         _hammerSpawner.Init(_eventBus, _player, _round);
         _timerBar.Init(_eventBus);
         _round.Init(_eventBus);
-    
+        _audioHandler.Init(_eventBus);
+        
         InjectDependenciesInGroup("MoveButtons");
 
         _player.Start();

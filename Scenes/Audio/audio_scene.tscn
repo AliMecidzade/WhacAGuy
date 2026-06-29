@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c56k3nw65sdpr"]
+
+[ext_resource type="Script" uid="uid://ba0ynwwl37xug" path="res://Gameplay/Audio/AudioHandler.cs" id="1_3vh46"]
+
+[node name="AudioPlayer" type="Node" unique_id=1265986040]
+script = ExtResource("1_3vh46")

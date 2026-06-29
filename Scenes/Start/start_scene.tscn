@@ -56,21 +56,8 @@ anchor_left = 0.408
 anchor_top = 0.531
 anchor_right = 0.612
 anchor_bottom = 0.6
-offset_top = -3.05176e-05
-offset_right = 0.459534
-offset_bottom = -0.110199
+offset_top = -0.74002075
+offset_right = 0.4595337
+offset_bottom = -0.8501892
 pivot_offset = Vector2(101.36, 20.04)
 text = "QUIT"
-
-[node name="Settings" type="Button" parent="." unique_id=731612381]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.408
-anchor_top = 0.443
-anchor_right = 0.612
-anchor_bottom = 0.511
-offset_left = -3.05176e-05
-offset_right = 0.319946
-offset_bottom = -0.100006
-pivot_offset = Vector2(87.8, 17.2)
-text = "SETTINGS"
