@@ -48,24 +48,32 @@ public partial class GameOverMenu : CanvasLayer
 	
 	private void OnBackToMainButtonPressed()
 	{
+		GetTree().Paused = false;
+
 		ChangeScene("Start/start_scene");
 	}
 	
 	private void OnExitButtonPressed()
 	{
+		GetTree().Paused = false;
+
 		GetTree().Quit();
 	}
 
 	private void OnTryAgainButtonPressed()
 	{
+		GetTree().Paused = false;
+
 		GetTree().ReloadCurrentScene();
 	}
 
 	private void ShowGameOverMenu()
 	{
+		
 		SaveData data = SaveManager.Instance.Load();
 		_playerHighScore.Text = "High Score: " + data.HighScore.ToString();
 		this.Visible = true;
+		GetTree().Paused = true;
 	}
 	
 	

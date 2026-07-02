@@ -21,6 +21,22 @@ public partial class TimerBar : Control , IEventBusInjectable
 			new Callable(this, nameof(ShowTimerBar)));
 		_eventBus.Connect(EventBus.SignalName.AttackRoundFinished,
 			new Callable(this, nameof(HideTimerBar)));
+		_eventBus.Connect(EventBus.SignalName.GamePaused,
+			new Callable(this, nameof(OnGamePaused)));
+		_eventBus.Connect(EventBus.SignalName.GameUnpaused,
+			new Callable(this, nameof(OnGameUnpaused)));
+	}
+
+	private void OnGamePaused()
+	{
+		if (_tween != null)
+			_tween.SetSpeedScale(0);
+	}
+
+	private void OnGameUnpaused()
+	{
+		if (_tween != null)
+			_tween.SetSpeedScale(1);
 	}
 	public void Init(EventBus eventBus)
 	{

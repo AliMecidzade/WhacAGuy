@@ -34,9 +34,12 @@ public partial class MoveButton : Area2D , IEventBusInjectable
     
     public override void _InputEvent(Viewport viewport, InputEvent inputEvent, int shapeIdx)
     {
+        if (GetTree().Paused)
+            return;
+
         if (inputEvent is InputEventMouseButton mouseEvent)
         {
-            if (mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left)
+            if ((mouseEvent.Pressed && mouseEvent.ButtonIndex == MouseButton.Left))
             {
                 _sprite.Texture = moveButtonTexturePressed;
                 OnMouseClicked();
@@ -46,7 +49,12 @@ public partial class MoveButton : Area2D , IEventBusInjectable
                 _sprite.Texture = moveButtonTexture;
             }
         }
+        
     }
+    
+    
+    
+    
     public void SetVisualPressed(bool pressed)
     {
         _sprite.Texture = pressed ? moveButtonTexturePressed : moveButtonTexture;

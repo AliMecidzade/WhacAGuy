@@ -8,6 +8,7 @@ public partial class AttackRoundController : IEventBusInjectable
 
     private bool _playerHit;
     private bool _running;
+    private bool _paused;
 
     private int _finishedHammers;
     private int _expectedHammers;
@@ -17,6 +18,16 @@ public partial class AttackRoundController : IEventBusInjectable
     private float _roundDuration;
 
     public bool IsRunning => _running;
+
+    public void Pause()
+    {
+        _paused = true;
+    }
+
+    public void Resume()
+    {
+        _paused = false;
+    }
 
     public void Init(EventBus eventBus)
     {
@@ -38,32 +49,36 @@ public partial class AttackRoundController : IEventBusInjectable
 
     public void NotifyHammerEntered()
     {
+        if (_paused)
+            return;
         _playerOnHammerCount++;
     }
 
     public void NotifyHammerExited()
     {
+        if (_paused)
+            return;
         if (_playerOnHammerCount > 0)
             _playerOnHammerCount--;
     }
 
     public void AccumulateTime(float delta)
     {
-        if (!_running || _playerOnHammerCount == 0)
+        if (!_running || _paused || _playerOnHammerCount == 0)
             return;
         _totalTimeOnAnyHammer += delta;
     }
 
     public void RegisterHit()
     {
-        if (!_running)
+        if (!_running || _paused)
             return;
         _playerHit = true;
     }
 
     public void NotifyHammerFinished(float timeInside, float attackDelay)
     {
-        if (!_running)
+        if (!_running || _paused)
             return;
 
         _finishedHammers++;

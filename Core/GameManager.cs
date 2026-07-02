@@ -16,7 +16,6 @@ public partial class GameManager : Node2D
     [Export] private Label _scoreLabel;
     [Export] private Label _roundLabel;
     [Export] private TimerBar _timerBar; 
-    
     private bool _isGameOver = false;
     private GameSaveService _gameSaveService;
     private PlayerScore _playerScore;
@@ -26,6 +25,8 @@ public partial class GameManager : Node2D
     private AudioHandler _audioHandler;
     public override void _Process(double delta)
     {
+        if (GetTree().Paused)
+            return;
         if (_round != null && _round.IsRunning)
             _round.AccumulateTime((float)delta);
     }
@@ -66,9 +67,16 @@ public partial class GameManager : Node2D
         _eventBus.Connect(
             EventBus.SignalName.AttackRoundFinished,
             new Callable(this, nameof(OnRoundFinished)));
+
+        _eventBus.Connect(EventBus.SignalName.GamePaused,
+            new Callable(this, nameof(OnGamePaused)));
+        _eventBus.Connect(EventBus.SignalName.GameUnpaused,
+            new Callable(this, nameof(OnGameUnpaused)));
+
         StartCurrentRound();
     }
 
+   
     private void StartCurrentRound()
     {
         
@@ -79,7 +87,7 @@ public partial class GameManager : Node2D
         
         // _timerBar.ShowTimerBar(roundData.AttackDelay);
     }
-
+   
     private void OnRoundFinished(
         float dodgeQuality,
         bool playerHit)
@@ -136,6 +144,16 @@ public partial class GameManager : Node2D
         
         
         GD.Print("GAME OVER");
+    }
+
+    private void OnGamePaused()
+    {
+        _round?.Pause();
+    }
+
+    private void OnGameUnpaused()
+    {
+        _round?.Resume();
     }
 
     private void InjectDependenciesInGroup(string groupName)

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ixxv8gft5m55" path="res://Scenes/TimerBar/timer_bar.tscn" id="8_vudmy"]
 
 [node name="MainScene" type="Node2D" unique_id=149247795 node_paths=PackedStringArray("_player", "_hammerSpawner", "_gameOverMenu", "_scoreLabel", "_roundLabel", "_timerBar")]
+process_mode = 3
 script = ExtResource("1_ip5ju")
 _dodgeFeedbackScene = ExtResource("2_vudmy")
 _player = NodePath("PlayerRoot")

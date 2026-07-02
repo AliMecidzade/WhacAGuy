@@ -2,7 +2,8 @@
 
 public enum SoundId
 {
-    ButtonPressed
+    ButtonPressed,
+    GameOver
     
     
     

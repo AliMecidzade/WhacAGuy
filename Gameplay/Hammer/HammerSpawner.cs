@@ -16,6 +16,7 @@ public partial class HammerSpawner : Node
     private readonly Random _random = new();
 
     private Callable _placeHammersCallable;
+    private double _pausedTimeLeft;
 
     private RoundData _currentRoundData = new()
     {
@@ -57,6 +58,30 @@ public partial class HammerSpawner : Node
                 EventBus.SignalName.GameOver,
                 stopCallable);
         }
+
+        _eventBus.Connect(EventBus.SignalName.GamePaused,
+            new Callable(this, nameof(OnGamePaused)));
+        _eventBus.Connect(EventBus.SignalName.GameUnpaused,
+            new Callable(this, nameof(OnGameUnpaused)));
+    }
+
+    private void OnGamePaused()
+    {
+        if (_hammerSpawnTimer != null && !_hammerSpawnTimer.IsStopped())
+        {
+            _pausedTimeLeft = _hammerSpawnTimer.TimeLeft;
+            _hammerSpawnTimer.Stop();
+        }
+    }
+
+    private void OnGameUnpaused()
+    {
+        if (_hammerSpawnTimer != null && _pausedTimeLeft > 0f)
+        {
+            _hammerSpawnTimer.WaitTime = _pausedTimeLeft;
+            _hammerSpawnTimer.Start();
+            _pausedTimeLeft = 0f;
+        }
     }
 
     public void Configure(RoundData roundData)
@@ -70,6 +95,8 @@ public partial class HammerSpawner : Node
 
     private void HammerSpawnTimerEnded()
     {
+        if (GetTree().Paused)
+            return;
         _eventBus.EmitEnemySpawn(_player.PlayerPosition, _currentRoundData.HammerCount);
     }
 
@@ -83,6 +110,20 @@ public partial class HammerSpawner : Node
         var stopCallable = new Callable(this, nameof(Stop));
         if (_eventBus.IsConnected(EventBus.SignalName.GameOver, stopCallable))
             _eventBus.Disconnect(EventBus.SignalName.GameOver, stopCallable);
+
+        if (_eventBus.IsConnected(EventBus.SignalName.GamePaused,
+            new Callable(this, nameof(OnGamePaused))))
+        {
+            _eventBus.Disconnect(EventBus.SignalName.GamePaused,
+                new Callable(this, nameof(OnGamePaused)));
+        }
+
+        if (_eventBus.IsConnected(EventBus.SignalName.GameUnpaused,
+            new Callable(this, nameof(OnGameUnpaused))))
+        {
+            _eventBus.Disconnect(EventBus.SignalName.GameUnpaused,
+                new Callable(this, nameof(OnGameUnpaused)));
+        }
     }
 
     private Hammer CreateHammer()
@@ -90,7 +131,7 @@ public partial class HammerSpawner : Node
         var hammerScene = GD.Load<PackedScene>("res://Gameplay/Hammer/hammer.tscn");
         Hammer hammer = hammerScene.Instantiate<Hammer>();
 
-        hammer.Init(_eventBus, _round);
+        hammer.Init(_eventBus, _round, _player);
         hammer.Configure(_currentRoundData.AttackDelay);
 
         return hammer;
@@ -98,7 +139,7 @@ public partial class HammerSpawner : Node
 
     private void PlaceHammers(Vector2 playerPos, int hammerNumber)
     {
-        if (hammerNumber <= 0)
+        if (hammerNumber <= 0 || GetTree().Paused)
             return;
 
         Node2D nearestPoint = null;

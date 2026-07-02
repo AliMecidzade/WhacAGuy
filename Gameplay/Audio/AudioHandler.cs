@@ -22,12 +22,14 @@ public partial class AudioHandler : Node, IEventBusInjectable
     private void LoadSounds()
     {
         _sounds[SoundId.ButtonPressed] = GD.Load<AudioStream>("res://Assets/Audio/Buttons/floraphonic-analog-appliance-button-10-185285.mp3");
+        _sounds[SoundId.GameOver] = GD.Load<AudioStream>("res://Assets/Audio/GameOver/mrstokes302-you-lose-sfx-mrstokes302-528744.mp3");
     }
 
     private void ConnectSignals()
     {
         _eventBus.Connect(EventBus.SignalName.MoveButtonClicked,
             new Callable(this, nameof(OnMoveButtonPressed)));
+        _eventBus.Connect(EventBus.SignalName.GameOver, new Callable(this, nameof(OnGameOver)));
     }
 
     private void OnMoveButtonPressed(Area2D _)
@@ -35,6 +37,11 @@ public partial class AudioHandler : Node, IEventBusInjectable
         PlaySound(SoundId.ButtonPressed);
     }
 
+    private void OnGameOver()
+    {
+        PlaySound(SoundId.GameOver);
+    }
+    
     private void PlaySound(SoundId soundId)
     {
         _sfxPlayer.Stream = _sounds[soundId];
