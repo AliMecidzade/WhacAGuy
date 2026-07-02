@@ -37,6 +37,7 @@ public partial class HammerSpawner : Node
         foreach (Marker2D child in GetNode("HammerSpawnPoints").GetChildren())
             _spawnPoints.Add(child);
 
+        _hammerSpawnTimer.OneShot = true;
         _hammerSpawnTimer.Timeout += HammerSpawnTimerEnded;
     }
 
@@ -89,6 +90,7 @@ public partial class HammerSpawner : Node
         _currentRoundData = roundData;
 
         _hammerSpawnTimer.Stop();
+        _hammerSpawnTimer.OneShot = true;
         _hammerSpawnTimer.WaitTime = Mathf.Max(0.05f, _currentRoundData.SpawnDelay);
         _hammerSpawnTimer.Start();
     }

@@ -33,12 +33,12 @@ position = Vector2(374, 166)
 zoom = Vector2(1.63, 1.63)
 
 [node name="LeftButton" parent="." unique_id=1161926889 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(288, 270.00003)
+position = Vector2(140.00002, 271.00003)
 rotation = -1.5707964
 scale = Vector2(0.35, 0.35)
 
 [node name="RightButton" parent="." unique_id=1781968908 groups=["MoveButtons"] instance=ExtResource("2_d5b16")]
-position = Vector2(458.99997, 270.00003)
+position = Vector2(608, 271)
 rotation = 1.5707964
 scale = Vector2(-0.35, 0.35)
 
@@ -151,6 +151,15 @@ offset_left = 563.945
 offset_right = 626.94507
 offset_bottom = 23.0
 text = "Round : 1"
+
+[node name="PauseButton" type="Button" parent="." unique_id=1731834229]
+offset_left = 585.0
+offset_top = 40.0
+offset_right = 645.0
+offset_bottom = 100.0
+size_flags_horizontal = 8
+text = "II"
+metadata/_edit_use_anchors_ = true
 
 [node name="TimerBarControl" parent="." unique_id=1285524392 instance=ExtResource("8_vudmy")]
 texture_filter = 1

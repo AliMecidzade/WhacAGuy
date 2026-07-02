@@ -20,6 +20,7 @@ public partial class GameManager : Node2D
     private GameSaveService _gameSaveService;
     private PlayerScore _playerScore;
     private EventBus _eventBus;
+    private PauseManager _pauseManager;
     private AttackRoundController _round;
     private RoundProgression _roundProgression;
     private AudioHandler _audioHandler;
@@ -37,7 +38,11 @@ public partial class GameManager : Node2D
         GD.Print("[GAMEMANAGER] EventBus exists: " + HasNode("/root/EventBus"));
         
         _eventBus = GetNode<EventBus>("/root/EventBus");
+        _pauseManager = GetNode<PauseManager>("/root/PauseManager");
         _eventBus.ResetForNewGame();
+
+        var pauseButton = GetNode<Button>("PauseButton");
+        pauseButton.Pressed += _pauseManager.TogglePause;
     
         _playerScore = new PlayerScore();
         _round = new AttackRoundController();
